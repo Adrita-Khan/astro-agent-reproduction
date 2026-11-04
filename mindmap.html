@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mind map | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="The paper is easiest to follow as a chain: a problem, an instrument, a system, two experiments, an interpretation and an assessment. The map shows each idea and the links between branches.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="Mind map | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="The paper is easiest to follow as a chain: a problem, an instrument, a system, two experiments, an interpretation and an assessment. The map shows each idea and the links between branches.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="mindmap">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">Mind map</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="mindmap.html" aria-current="page">Mind map</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html">AI components</a>
+      <a href="agents.html">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html">The Nature audit</a>
+      <a href="case.html">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      <a href="synthesis.html">Findings and next steps</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; The paper &nbsp;/&nbsp; Chapter 2 of 15</p>
+    <h1>Mind map: how the argument fits together</h1>
+    <p class="lead">The paper is easiest to follow as a chain: a problem, an instrument, a system, two experiments, an interpretation and an assessment. The map shows each idea and the links between branches.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="sub"><h2>The chain of reasoning</h2>
+    <p class="note">Read top to bottom. Each step exists because the one before it left something unresolved.</p>
+    <ol class="chain" id="mmChain"></ol>
+  </div>
+
+  <div class="sub"><h2>The map</h2>
+    <p class="note">Branches run clockwise in the order the argument unfolds. Select any node for its detail and its chapter. Dashed curves join ideas on different branches; select a node to light up its connections.</p>
+    <div class="card lift mm">
+      <div class="mmbar">
+        <div class="chips" id="mmView" role="group" aria-label="View">
+          <button class="chip" type="button" data-v="map" aria-pressed="true">Map</button>
+          <button class="chip" type="button" data-v="outline" aria-pressed="false">Outline</button>
+        </div>
+        <div class="mmkey"><span><i class="kp"></i>Paper</span><span><i class="kb"></i>Background</span><span><i class="kc"></i>My assessment</span></div>
+      </div>
+      <div class="mmscroll" id="mmMapBox"><div id="mmMap"></div></div>
+      <div id="mmOutline" hidden></div>
+      <div class="detail" id="mmDetail" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <div class="sub"><h2>How the pieces connect</h2>
+    <p class="note">The dashed curves on the map, in words. Each one is a place where a later idea depends on an earlier one.</p>
+    <div class="g2" id="mmLinks"></div>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="index.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">Overview</span></a><a class="nx" href="contributions.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Contributions</span><span class="ps">What the paper adds and how well each claim is supported.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

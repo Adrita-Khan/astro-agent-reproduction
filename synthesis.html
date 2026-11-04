@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Findings and next steps | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="What the paper shows, where it is exposed, and what would make the next study stronger.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="Findings and next steps | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="What the paper shows, where it is exposed, and what would make the next study stronger.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="synthesis">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">Findings and next steps</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="mindmap.html">Mind map</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html">AI components</a>
+      <a href="agents.html">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html">The Nature audit</a>
+      <a href="case.html">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      <a href="synthesis.html" aria-current="page">Findings and next steps</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; Assessment &nbsp;/&nbsp; Chapter 13 of 15</p>
+    <h1>Findings, limits and next steps</h1>
+    <p class="lead">What the paper shows, where it is exposed, and what would make the next study stronger.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="g3" id="synGlance"></div>
+
+  <div class="sub"><h2>Major findings</h2>
+    <p class="note">Eight findings, in the order the paper reaches them. Dots show how well the manuscript supports each one, from 1 (assertion) to 5 (convincing and checkable). The caveat is what would change my confidence.</p>
+    <div id="synFind"></div>
+  </div>
+
+  <div class="sub"><h2>Loopholes and limitations</h2>
+    <div class="sub2">
+      <h3>Limits the authors state <span class="src p">§7</span></h3>
+      <div class="g3 lim" id="synStated"></div>
+    </div>
+    <div class="sub2">
+      <h3>Loopholes the paper does not address <span class="src c">My reading</span></h3>
+      <p class="note">Ordered by how much each one weakens a headline claim. The full argument for each is on the <a href="critique.html">Critique</a> page; here is what would close it.</p>
+      <div class="scroll card flat"><table class="tbl" id="synLoop"></table></div>
+    </div>
+    <div class="sub2">
+      <h3>Where each finding is exposed <span class="src c">My assessment</span></h3>
+      <p class="note">Four kinds of threat against the five findings that carry the paper’s argument. Filled dots mean strong exposure, half-filled some, empty little.</p>
+      <div class="scroll card flat"><table class="tbl wide" id="synMatrix"></table></div>
+    </div>
+  </div>
+
+  <div class="sub"><h2>Future work</h2>
+    <p class="note">Grouped by how soon it can be done. <span class="src p">Paper</span> marks something the authors say they want. <span class="src c">Suggested</span> marks my own suggestion.</p>
+    <div class="g3 horiz" id="synFuture"></div>
+  </div>
+
+  <div class="sub"><h2>Improving the methodology</h2>
+    <p class="note">The same critique, organised by stage of the study, so it can be read as a revised protocol.</p>
+    <div class="mth" id="synMethod"></div>
+    <div class="callout crit">
+      <p><b>If I could change only three things.</b> First, report the attribution families (outcomes by model, workflow and paper, with run counts), because that is the experiment that would separate agent from source. Second, test linking directly by altering a stated correction in a copy of a paper. Third, pre-state a match tolerance and complete the missing artefacts, so that the central claims can be checked by someone else.</p>
+    </div>
+  </div>
+
+  <div class="sub"><h2>Bottom line</h2>
+    <div class="callout">
+      <p>The paper’s strongest contribution is a design: enumerate every plausible path, keep the published target out of sight, run them all and report the spread. That design supports one firm conclusion, that a matching number is weak evidence of reconstructed reasoning.</p>
+      <p>The weaker step is from that conclusion to claims about agents and papers in general. The corpus is small and from one field, the audit blends source gaps with reading errors, and the mechanism it proposes rests on one case. None of this makes the framing less useful; it means the next study should be judged by the controls listed above.</p>
+    </div>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="critique.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">Critique</span></a><a class="nx" href="kit.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Seminar kit</span><span class="ps">Talk plan, expected questions, a self-test and a glossary.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

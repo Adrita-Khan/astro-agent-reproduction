@@ -7,7 +7,7 @@ var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelect
 var has=function(s){return !!document.querySelector(s)};
 var mean=function(a){return a.reduce(function(x,y){return x+y},0)/a.length};
 var PUB=2.70;
-var PAGEMAP={overview:['index','Overview'],contributions:['contributions','Contributions'],background:['background','Background'],ai:['ai','AI components'],agents:['agents','Agent architecture'],workflows:['workflows','Workflows'],audit:['audit','The Nature audit'],case:['case','Case study: Rix et al.'],technical:['equations','Equations and tools'],assumptions:['assumptions','Assumptions'],critique:['critique','Critique'],kit:['kit','Seminar kit'],figures:['figures','Figure index']};
+var PAGEMAP={overview:['index','Overview'],contributions:['contributions','Contributions'],background:['background','Background'],ai:['ai','AI components'],agents:['agents','Agent architecture'],workflows:['workflows','Workflows'],audit:['audit','The Nature audit'],case:['case','Case study: Rix et al.'],technical:['equations','Equations and tools'],assumptions:['assumptions','Assumptions'],critique:['critique','Critique'],kit:['kit','Seminar kit'],figures:['figures','Figure index'],mindmap:['mindmap','Mind map'],synthesis:['synthesis','Findings and next steps']};
 
 function fo(x,y,w,h,inner,cls,align){
   var left=align==='middle'?x-w/2:align==='end'?x-w:x;
@@ -331,13 +331,145 @@ function figHtml(f,n){
   $$('[data-repo]').forEach(function(a){a.href='https://github.com/'+m[1]+'/'+repo;a.hidden=false});
 })();
 
+/* ---------- mind map ---------- */
+(function(){
+  if(!has('#mmMap'))return;
+  var M=D.MM,files={};
+  Object.keys(PAGEMAP).forEach(function(k){files[PAGEMAP[k][0]]=PAGEMAP[k][1]});
+  function plain(s){return s.replace(/\\kpc/g,' kpc').replace(/\\mas/g,' mas').replace(/\\SN/g,'S/N').replace(/\\approx/g,'about ').replace(/\\times/g,' by ').replace(/\\varpi/g,'parallax').replace(/\\sigma_\{\\mathrm\{RGC\}\}/g,'sigma RGC').replace(/\\%/g,'%').replace(/\\[a-zA-Z]+/g,'').replace(/[${}]/g,'').replace(/\s+/g,' ').trim()}
+  var nodes={};
+  M.branches.forEach(function(b){
+    nodes[b.id]={id:b.id,t:b.t,d:b.d,k:b.k,pg:b.pg,br:b,branch:true};
+    b.kids.forEach(function(c){nodes[c.id]={id:c.id,t:c.t,d:c.d,k:b.k,pg:c.pg||b.pg,br:b,branch:false}});
+  });
+  var W=1280,KW=215,KH=48,KS=56,BW=210,BH=48,GAP=16,cx=W/2,rx=112,ry=76;
+  var side={r:[],l:[]};M.branches.forEach(function(b){side[b.side].push(b)});
+  side.l.reverse();
+  function blockH(b){return Math.max(b.kids.length*KS,BH+10)}
+  function sideH(list){return list.reduce(function(a,b){return a+blockH(b)},0)+GAP*(list.length-1)}
+  var H=Math.max(sideH(side.r),sideH(side.l))+40,cy=H/2,pos={};
+  ['r','l'].forEach(function(s){
+    var y=(H-sideH(side[s]))/2;
+    side[s].forEach(function(b){
+      var h=blockH(b),by=y+h/2,bx=s==='r'?cx+rx+48:cx-rx-48-BW;
+      pos[b.id]={x:bx,y:by-BH/2,w:BW,h:BH,cy:by,inner:s==='r'?bx:bx+BW,outer:s==='r'?bx+BW:bx,s:s};
+      b.kids.forEach(function(c,i){
+        var ky=y+(h-b.kids.length*KS)/2+i*KS+(KS-KH)/2,kx=s==='r'?bx+BW+28:bx-28-KW;
+        pos[c.id]={x:kx,y:ky,w:KW,h:KH,cy:ky+KH/2,inner:s==='r'?kx:kx+KW,outer:s==='r'?kx+KW:kx,s:s};
+      });
+      y+=h+GAP;
+    });
+  });
+  function f1(v){return v.toFixed(1)}
+  function build(){
+    var s='<svg class="plot mmsvg" viewBox="0 0 '+W+' '+H.toFixed(0)+'" role="group" aria-label="Mind map of the paper. Seven branches in the order of the argument.">';
+    M.branches.forEach(function(b){
+      var p=pos[b.id],d=p.s==='r'?1:-1;
+      s+='<g class="mcon b-'+b.k+'" data-br="'+b.id+'"><path class="mc1" d="M'+f1(cx)+' '+f1(cy)+' C'+f1(cx+d*130)+' '+f1(cy)+' '+f1(p.inner-d*70)+' '+f1(p.cy)+' '+f1(p.inner)+' '+f1(p.cy)+'"/>';
+      b.kids.forEach(function(c){var k=pos[c.id];s+='<path class="mc2" d="M'+f1(p.outer)+' '+f1(p.cy)+' C'+f1(p.outer+d*16)+' '+f1(p.cy)+' '+f1(k.inner-d*16)+' '+f1(k.cy)+' '+f1(k.inner)+' '+f1(k.cy)+'"/>'});
+      s+='</g>';
+    });
+    M.links.forEach(function(l,i){
+      var a=pos[l.a],b=pos[l.b],d;
+      if(a.s===b.s){var o=a.s==='r'?1:-1;d='M'+f1(a.outer)+' '+f1(a.cy)+' C'+f1(a.outer+o*34)+' '+f1(a.cy)+' '+f1(b.outer+o*34)+' '+f1(b.cy)+' '+f1(b.outer)+' '+f1(b.cy)}
+      else d='M'+f1(a.inner)+' '+f1(a.cy)+' C'+f1(cx)+' '+f1(a.cy)+' '+f1(cx)+' '+f1(b.cy)+' '+f1(b.inner)+' '+f1(b.cy);
+      s+='<path class="mlink" data-i="'+i+'" data-a="'+l.a+'" data-b="'+l.b+'" d="'+d+'"/>';
+    });
+    s+='<g class="mcenter"><ellipse cx="'+cx+'" cy="'+cy.toFixed(1)+'" rx="'+rx+'" ry="'+ry+'"/>'+fo(cx,cy-ry+8,2*rx-36,2*ry-16,'<span>'+M.centre.t+'</span>','mcf','middle')+'</g>';
+    M.branches.forEach(function(b){
+      var p=pos[b.id];
+      s+='<g class="nd nb b-'+b.k+'" data-id="'+b.id+'" data-br="'+b.id+'" tabindex="0" role="button" aria-pressed="false" aria-label="Branch '+b.n+': '+plain(b.t)+'"><rect class="nr" x="'+f1(p.x)+'" y="'+f1(p.y)+'" width="'+p.w+'" height="'+p.h+'" rx="24"/><circle class="nbadge" cx="'+f1(p.x+26)+'" cy="'+f1(p.cy)+'" r="15"/><text class="nbn" x="'+f1(p.x+26)+'" y="'+f1(p.cy+6)+'" text-anchor="middle">'+b.n+'</text>'+fo(p.x+50,p.y+2,p.w-60,p.h-4,'<span>'+b.t+'</span>','mbf','start')+'</g>';
+      b.kids.forEach(function(c){
+        var k=pos[c.id],left=k.s==='l';
+        s+='<g class="nd nk b-'+b.k+'" data-id="'+c.id+'" data-br="'+b.id+'" tabindex="0" role="button" aria-pressed="false" aria-label="'+plain(c.t)+'"><rect class="nr" x="'+f1(k.x)+'" y="'+f1(k.y)+'" width="'+k.w+'" height="'+k.h+'" rx="10"/>'+fo(left?k.x+k.w-12:k.x+12,k.y+2,k.w-24,k.h-4,'<span>'+c.t+'</span>','mkf'+(left?' mkl':''),left?'end':'start')+'</g>';
+      });
+    });
+    return s+'</svg>';
+  }
+  var box=$('#mmMap');box.innerHTML=build();
+  var detail=$('#mmDetail'),sel=null;
+  function linksOf(id){
+    var n=nodes[id],ids={};
+    if(n.branch)n.br.kids.forEach(function(c){ids[c.id]=1});else ids[id]=1;
+    return M.links.filter(function(l){return ids[l.a]||ids[l.b]});
+  }
+  function goBtn(id){return '<button type="button" class="lk" data-go="'+id+'">'+nodes[id].t+'</button>'}
+  function idle(){
+    detail.innerHTML='<p class="lab">Nothing selected</p><p>Select a node. Branch numbers follow the order of the argument, so reading <b>1</b> to <b>7</b> retells the paper. The selected idea, its branch and its cross-branch connections stay bright and the rest fades.</p>';
+  }
+  function select(id){
+    var n=nodes[id];if(!n)return;sel=id;$('.mmsvg',box).classList.add('seld');
+    var ls=linksOf(id),keep={};
+    n.br.kids.forEach(function(c){keep[c.id]=1});keep[n.br.id]=1;
+    ls.forEach(function(l){keep[l.a]=1;keep[l.b]=1;(function(x){keep[nodes[x].br.id]=1})(l.a);(function(x){keep[nodes[x].br.id]=1})(l.b)});
+    $$('.nd',box).forEach(function(g){var i=g.getAttribute('data-id'),on=i===id;g.classList.toggle('on',on);g.setAttribute('aria-pressed',on?'true':'false');g.classList.toggle('dim',!keep[i])});
+    $$('.mcon',box).forEach(function(g){var b=g.getAttribute('data-br'),lit=b===n.br.id||ls.some(function(l){return nodes[l.a].br.id===b||nodes[l.b].br.id===b});g.classList.toggle('dim',!lit)});
+    $$('.mlink',box).forEach(function(p){var hot=ls.some(function(l){return M.links.indexOf(l)===+p.getAttribute('data-i')});p.classList.toggle('hot',hot)});
+    var h='<p class="lab">'+(n.branch?'Branch '+n.br.n:'Branch '+n.br.n+': '+n.br.t)+'</p><h3>'+n.t+'</h3><p>'+tag(n.k)+n.d+'</p>';
+    if(n.branch)h+='<ul class="mmkids">'+n.br.kids.map(function(c){return '<li>'+goBtn(c.id)+'<span>'+c.d+'</span></li>'}).join('')+'</ul>';
+    if(ls.length)h+='<p class="lab mt">Connected to</p><ul class="mmcon">'+ls.map(function(l){var own={};if(n.branch)n.br.kids.forEach(function(c){own[c.id]=1});else own[id]=1;var other=own[l.a]?l.b:l.a;return '<li><b>'+l.t+'.</b> '+l.d+' '+goBtn(other)+'</li>'}).join('')+'</ul>';
+    h+='<p class="mmgo">Read more in <a href="'+n.pg+'.html">'+files[n.pg]+' &rarr;</a></p>';
+    detail.innerHTML=h;
+  }
+  idle();
+  box.addEventListener('click',function(e){var g=e.target.closest?e.target.closest('.nd'):null;if(g)select(g.getAttribute('data-id'));else if(!e.target.closest('.nd')&&e.target.tagName==='svg'){}});
+  box.addEventListener('keydown',function(e){if(e.key!=='Enter'&&e.key!==' ')return;var g=e.target.closest&&e.target.closest('.nd');if(g){e.preventDefault();select(g.getAttribute('data-id'))}});
+  /* outline view */
+  $('#mmOutline').innerHTML='<div class="mmol">'+M.branches.map(function(b){
+    return '<details class="mmd b-'+b.k+'"><summary><span class="bn">'+b.n+'</span><span class="bt">'+b.t+'</span><span class="bc">'+b.kids.length+' ideas</span></summary><div class="mmdb"><p>'+tag(b.k)+b.d+'</p><ul>'+b.kids.map(function(c){return '<li><b>'+c.t+'</b> '+c.d+'</li>'}).join('')+'</ul><p class="mmgo">Read more in <a href="'+b.pg+'.html">'+files[b.pg]+' &rarr;</a></p></div></details>';
+  }).join('')+'</div>';
+  var vb=$$('#mmView .chip');
+  function view(v){
+    pressGroup(vb,v==='map'?0:1);
+    $('#mmMapBox').hidden=v!=='map';$('#mmOutline').hidden=v==='map';detail.hidden=v!=='map';
+  }
+  vb.forEach(function(b){b.addEventListener('click',function(){view(b.getAttribute('data-v'))})});
+  view(($('#mmMapBox').clientWidth||800)<640?'outline':'map');
+  /* chain and connection cards */
+  $('#mmChain').innerHTML=M.chain.map(function(c,i){
+    return '<li><span class="cn">'+(i+1)+'</span><div class="cb"><h3>'+c.t+'</h3><p>'+c.b+'</p>'+(c.o?'<p class="cq"><span>Leaves open</span>'+c.o+'</p>':'')+'<a class="cl" href="'+c.pg+'.html">'+files[c.pg]+' &rarr;</a></div></li>';
+  }).join('');
+  $('#mmLinks').innerHTML=M.links.map(function(l){
+    return '<div class="card"><h3>'+l.t+'</h3><p>'+l.d+'</p><p class="mmw">'+goBtn(l.a)+'<span aria-hidden="true">&harr;</span>'+goBtn(l.b)+'</p></div>';
+  }).join('');
+  $('#mmLinks').addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('[data-go]');if(!b)return;
+    view('map');pressGroup(vb,0);select(b.getAttribute('data-go'));
+    $('#mmMap').scrollIntoView({block:'center',behavior:'smooth'});
+  });
+  detail.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-go]');if(b)select(b.getAttribute('data-go'))});
+})();
+
+/* ---------- findings and next steps ---------- */
+(function(){
+  if(!has('#synFind'))return;
+  var S=D.SYN,files={};
+  Object.keys(PAGEMAP).forEach(function(k){files[PAGEMAP[k][0]]=PAGEMAP[k][1]});
+  $('#synGlance').innerHTML=S.glance.map(function(g){return '<div class="card glc gl-'+g.c+'"><h3>'+g.t+'</h3>'+ul(g.x)+'</div>'}).join('');
+  $('#synFind').innerHTML=S.find.map(function(f){
+    return '<article class="fnd"><div class="fid">'+f.id+'</div><div class="fbody"><h3>'+f.t+'</h3><p>'+f.x+'</p><div class="fmeta">'+tag(f.c)+'<span class="fw">'+f.w+'</span>'+dots(f.ev)+'<a href="'+f.pg+'.html">'+files[f.pg]+' &rarr;</a></div><p class="fcv"><b>Caveat.</b> '+f.cv+'</p></div></article>';
+  }).join('');
+  $('#synStated').innerHTML=S.stated.map(function(s,i){return '<div class="card"><h4><span class="num">'+(i+1)+'</span>'+s.t+'</h4><p>'+s.x+'</p></div>'}).join('');
+  var order={high:0,med:1,low:2},lab={high:'High',med:'Medium',low:'Low'};
+  var weak=D.WEAK.slice().sort(function(a,b){return order[a.sv]-order[b.sv]});
+  $('#synLoop').innerHTML='<thead><tr><th>Severity</th><th>Loophole</th><th>What would close it</th></tr></thead><tbody>'+weak.map(function(w){return '<tr><td><span class="sev '+w.sv+'">'+lab[w.sv]+'</span></td><td><b>'+w.t+'</b></td><td>'+w.f+'</td></tr>'}).join('')+'</tbody>';
+  var mx=S.matrix,lv=['little exposure','some exposure','strong exposure'];
+  $('#synMatrix').innerHTML='<thead><tr><th>Finding</th>'+mx.cols.map(function(c,i){return '<th>'+c+'<span class="ths">'+mx.sub[i]+'</span></th>'}).join('')+'</tr></thead><tbody>'+mx.rows.map(function(r){
+    return '<tr><th scope="row"><span class="fid2">'+r.f+'</span> '+r.t+'</th>'+r.m.map(function(c){return '<td><span class="lvl l'+c[0]+'" role="img" aria-label="'+lv[c[0]]+'"></span><span class="lt">'+c[1]+'</span></td>'}).join('')+'</tr>';
+  }).join('')+'</tbody>';
+  $('#synFuture').innerHTML=S.future.map(function(h){
+    return '<div class="card"><h3>'+h.h+'</h3><p class="hs">'+h.s+'</p>'+h.i.map(function(i){return '<div class="fut"><h4>'+i.t+'<span class="src '+(i.c==='p'?'p':'c')+'">'+(i.c==='p'?'Paper':'Suggested')+'</span></h4><p>'+i.x+'</p></div>'}).join('')+'</div>';
+  }).join('');
+  $('#synMethod').innerHTML=S.method.map(function(m){return '<div class="mrow"><h3>'+m.s+'</h3><div class="mgrid"><div><p class="lab">What the paper does</p><p>'+m.now+'</p></div><div><p class="lab">The gap</p><p>'+m.gap+'</p></div><div class="mfix"><p class="lab">A stronger design</p><p>'+m.fix+'</p></div><div><p class="lab">What it would show</p><p>'+m.show+'</p></div></div></div>'}).join('');
+})();
+
 /* ---------- mathematics (KaTeX, bundled in assets/vendor) ---------- */
 (function(){
   var main=$('#main'),busy=false,timer=null;
   function render(){
     if(typeof window.renderMathInElement!=='function')return;
     busy=true;
-    try{window.renderMathInElement(main,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,macros:{'\\kpc':'\\,\\mathrm{kpc}','\\mas':'\\,\\mathrm{mas}','\\SN':'\\mathrm{S/N}','\\MH':'[\\mathrm{M/H}]','\\RUWE':'\\mathrm{RUWE}'},ignoredTags:['script','noscript','style','textarea','pre','code']})}catch(e){}
+    try{window.renderMathInElement(main,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,macros:{'\\kpc':'\\,\\mathrm{kpc}','\\mas':'\\,\\mathrm{mas}','\\SN':'\\mathrm{S/N}','\\MH':'[\\mathrm{M/H}]','\\RUWE':'\\mathrm{RUWE}'},ignoredTags:['script','noscript','style','textarea','pre','code']})}catch(e){}try{$$('.katex',main).forEach(function(k){var n=k.nextSibling;if(n&&n.nodeType===3&&/^[,.;:)\]?!]/.test(n.nodeValue))n.nodeValue='\u2060'+n.nodeValue})}catch(e){}
     busy=false;
   }
   new MutationObserver(function(){if(busy)return;clearTimeout(timer);timer=setTimeout(render,25)}).observe(main,{childList:true,subtree:true});
