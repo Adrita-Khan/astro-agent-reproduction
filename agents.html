@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agent architecture | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="Hermes, an open-source multi-agent framework (Nous Research, 2026), schedules specialised roles and gives them tools and a persistent filesystem. Select any box to see what the role reads, writes and decides.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="Agent architecture | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="Hermes, an open-source multi-agent framework (Nous Research, 2026), schedules specialised roles and gives them tools and a persistent filesystem. Select any box to see what the role reads, writes and decides.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="agents">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">Agent architecture</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html">AI components</a>
+      <a href="agents.html" aria-current="page">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html">The Nature audit</a>
+      <a href="case.html">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; How it works &nbsp;/&nbsp; Chapter 5 of 13</p>
+    <h1>Five roles on one orchestration framework</h1>
+    <p class="lead">Hermes, an open-source multi-agent framework (Nous Research, 2026), schedules specialised roles and gives them tools and a persistent filesystem. Select any box to see what the role reads, writes and decides.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="card lift">
+    <div class="scroll"><div class="svgwrap">
+    <svg id="agentSvg" viewBox="0 0 760 412" role="group" aria-label="Agent architecture diagram. Select a box for details.">
+      <defs>
+        <marker id="ahA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
+        <marker id="ahB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahd"/></marker>
+      </defs>
+      <rect class="sv-hermes" x="8" y="60" width="744" height="220" rx="10"/>
+      <text class="sv-s" x="20" y="270">Hermes: schedules roles, supplies tools and a persistent filesystem</text>
+
+      <g class="node" data-role="input" tabindex="0" role="button" aria-label="Input"><rect class="sv-box" x="24" y="8" width="232" height="36" rx="6"/><text class="sv-s" x="140" y="30" text-anchor="middle">Target paper + accessible supplement</text></g>
+      <g class="node" data-role="human" tabindex="0" role="button" aria-label="Human expert review"><rect class="sv-box" x="480" y="8" width="256" height="36" rx="6"/><text class="sv-s" x="608" y="30" text-anchor="middle">Human expert review, then judgment</text></g>
+      <path class="sv-line" d="M84 44 L84 116" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M700 116 L700 46" marker-end="url(#ahA)"/>
+
+      <g class="node" data-role="reader" tabindex="0" role="button" aria-label="Reader"><rect class="sv-box" x="24" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="84" y="152" text-anchor="middle">Reader</text><text class="sv-s" x="84" y="172" text-anchor="middle">paper to notes</text></g>
+      <g class="node" data-role="planner" tabindex="0" role="button" aria-label="Planner"><rect class="sv-box" x="172" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="232" y="152" text-anchor="middle">Planner</text><text class="sv-s" x="232" y="172" text-anchor="middle">notes to task graph</text></g>
+      <g class="node" data-role="coder" tabindex="0" role="button" aria-label="Coder"><rect class="sv-box" x="320" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="380" y="152" text-anchor="middle">Coder</text><text class="sv-s" x="380" y="172" text-anchor="middle">writes and runs code</text></g>
+      <g class="node" data-role="verifier" tabindex="0" role="button" aria-label="Verifier"><rect class="sv-box" x="468" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="528" y="152" text-anchor="middle">Verifier</text><text class="sv-s" x="528" y="172" text-anchor="middle">re-derives and checks</text></g>
+      <g class="node" data-role="adjudicator" tabindex="0" role="button" aria-label="Adjudicator"><rect class="sv-box" x="616" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="676" y="152" text-anchor="middle">Adjudicator</text><text class="sv-s" x="676" y="172" text-anchor="middle">cross-model audit</text></g>
+
+      <path class="sv-line" d="M146 158 L170 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M294 158 L318 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M442 158 L466 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M590 158 L614 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M528 200 C528 250 380 250 380 202" marker-end="url(#ahA)"/>
+      <text class="sv-s" x="454" y="255" text-anchor="middle">mismatch: trace, fix, rerun</text>
+      <path class="sv-dash" d="M650 116 C650 78 246 78 246 114" marker-end="url(#ahB)"/>
+      <text class="sv-s" x="448" y="76" text-anchor="middle">unresolved: re-plan or re-read (inferred)</text>
+
+      <g class="node" data-role="models" tabindex="0" role="button" aria-label="Foundation models"><rect class="sv-wide" x="8" y="290" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="311" text-anchor="middle">Foundation models: at least two independent LLMs; cross-model audits at milestones</text></g>
+      <g class="node" data-role="fs" tabindex="0" role="button" aria-label="Filesystem and provenance"><rect class="sv-wide" x="8" y="330" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="351" text-anchor="middle">Persistent filesystem and provenance log: datasets, scripts, intermediate outputs, parameter decisions</text></g>
+      <g class="node" data-role="tools" tabindex="0" role="button" aria-label="Toolchain"><rect class="sv-wide" x="8" y="370" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="391" text-anchor="middle">Toolchain: literature retrieval, Gaia / MAST / TESS archives, sandboxed Python (pinned), shell</text></g>
+    </svg>
+    </div></div>
+    <p class="fine">Solid arrows follow the paper's description. The dashed arrow is my inference about where unresolved disagreements go.</p>
+  </div>
+  <p class="lab mt2">Or choose a part of the architecture</p>
+  <div class="chips" id="roleChips" role="group" aria-label="Parts of the architecture"></div>
+  <div class="detail mt" id="roleDetail" aria-live="polite"></div>
+
+  <div class="sub"><h2>How the roles interact</h2>
+    <div class="g2">
+      <div class="card"><h3><span class="src p">Paper</span> What is stated</h3>
+        <ul><li>Roles are scheduled by Hermes and share tools and a persistent filesystem.</li><li>The verifier re-derives results independently and checks them against the paper.</li><li>The adjudicator settles execution versus verification disagreements through cross-model audit, not self-confirmation.</li><li>Parameters carry provenance, and failure modes and uncertainty must be reported.</li></ul></div>
+      <div class="card"><h3><span class="src c">Critique</span> What is left open</h3>
+        <ul><li>Message format and turn-taking between roles.</li><li>Whether the verifier sees the coder's reasoning or only its outputs.</li><li>Retry limits and stopping rules.</li><li>Whether the planner or a human enumerated the alternative interpretations in the twelve-path study.</li></ul></div>
+    </div>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="ai.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">AI components</span></a><a class="nx" href="workflows.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Workflows</span><span class="ps">The pipeline, the mismatch-tracing loop and the attribution logic.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

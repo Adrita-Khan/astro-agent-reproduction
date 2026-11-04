@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Case study: Rix et al. | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="“The Poor Old Heart of the Milky Way” (ApJ 941, 45). Every agent run recovered the qualitative result: metal-poor stars concentrate toward the Galactic centre and differ from the other population in chemistry and orbits. The numbers did not line up.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="Case study: Rix et al. | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="“The Poor Old Heart of the Milky Way” (ApJ 941, 45). Every agent run recovered the qualitative result: metal-poor stars concentrate toward the Galactic centre and differ from the other population in chemistry and orbits. The numbers did not line up.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="case">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">Case study: Rix et al.</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html">AI components</a>
+      <a href="agents.html">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html">The Nature audit</a>
+      <a href="case.html" aria-current="page">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; The evidence &nbsp;/&nbsp; Chapter 8 of 13</p>
+    <h1>Rix et al. (2022): twelve paths through one paper</h1>
+    <p class="lead">“The Poor Old Heart of the Milky Way” (ApJ 941, 45). Every agent run recovered the qualitative result: metal-poor stars concentrate toward the Galactic centre and differ from the other population in chemistry and orbits. The numbers did not line up.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="sub"><h2>Two first anomalies <span class="src p">Fig. 4 and Fig. 5</span></h2>
+    <div class="g2">
+      <div class="card">
+        <h3>Sample size does not match</h3>
+        <p>Following the stated method gave nearly 30,000 stars, while the published analysis used roughly 18,000 to 20,000. The counting convention could not be reconstructed from the text and public data.</p>
+        <div class="lad" id="ladder"></div>
+      </div>
+      <div class="card">
+        <h3>The headline scale was not uniquely determined</h3>
+        <p>The published $\sigma_{\mathrm{RGC}}$ is about 2.7 kpc. The public method left three choices open: which stars count, which sky region, and whether to apply a +0.02 mas parallax correction. The mismatch was recorded as unresolved and parameters were not tuned toward 2.7.</p>
+        <div class="callout crit"><p><span class="src c">Critique</span> Of the three sample definitions later used, none has N in the published 18,000 to 20,000 range. The path that recovers 2.70 kpc uses about 30,000 stars. The match in $\sigma$ and the mismatch in N are both unexplained.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub"><h2>Design of the controlled study <span class="src p">§3.5, §4.3</span></h2>
+    <div class="g3">
+      <div class="card"><h3>Sample definition (3)</h3><p>Metal-poor cut only; plus parallax S/N ≥ 5; plus S/N ≥ 5 and RUWE &lt; 1.4.</p></div>
+      <div class="card"><h3>Sky mask (2)</h3><p>Full sky, or exclude the Galactic plane with |b| &gt; 5°.</p></div>
+      <div class="card"><h3>Parallax zero-point (2)</h3><p>No correction, or +0.02 mas added to the observed parallax.</p></div>
+    </div>
+    <div data-fig="fig-sensitivity-design" class="mt"></div>
+    <div class="callout mt"><p><span class="src p">Paper</span> The published value was never an optimisation target, selection criterion or stopping condition. Path labels, parameter grids and stopping rules were fixed before any run. No path was added, removed or re-weighted after the published number became visible to the team.</p></div>
+  </div>
+
+  <div class="sub"><h2>Explore the twelve paths</h2>
+    <p class="note">Choose a path or click a point. Slide the match tolerance to see how many paths count as recovering the published value. Values come from the labels printed in Fig. 8.</p>
+    <div class="card lift">
+      <div class="ctrl">
+        <div class="field"><span class="lab">Sample definition</span><div class="chips" data-f="sample">
+          <button class="chip" type="button" data-v="MP">Metal-poor</button>
+          <button class="chip" type="button" data-v="SN">+ S/N ≥ 5</button>
+          <button class="chip" type="button" data-v="AS">+ RUWE &lt; 1.4</button></div></div>
+        <div class="field"><span class="lab">Sky mask</span><div class="chips" data-f="mask">
+          <button class="chip" type="button" data-v="full">Full sky</button>
+          <button class="chip" type="button" data-v="b5">|b| &gt; 5°</button></div></div>
+        <div class="field"><span class="lab">Parallax zero-point</span><div class="chips" data-f="zp">
+          <button class="chip" type="button" data-v="0">None</button>
+          <button class="chip" type="button" data-v="1">+0.02 mas</button></div></div>
+      </div>
+      <div class="ctrl mt">
+        <div class="field"><label for="exTol">Match tolerance: ±<span id="exTolV">1.0</span>%</label><input type="range" id="exTol" min="0.1" max="25" step="0.1" value="1"></div>
+        <div class="field"><span class="lab">Published value</span><div class="chips"><button class="chip" type="button" id="exPub" aria-pressed="true">Show 2.70 kpc line</button></div></div>
+        <div class="field"><span class="lab">Paths within tolerance</span><div class="exnum" id="exCount">2 of 12</div></div>
+      </div>
+      <div id="exCard" class="detail mt" aria-live="polite"></div>
+      <div id="exPlot" class="mt"></div>
+      <div class="dotkey mt"><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="var(--accent)" stroke-width="2.2"/></svg>no correction</span><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="var(--accent)"/></svg>+0.02 mas</span><span>upper dot of each pair: all sky, lower dot: |b| &gt; 5°</span></div>
+    </div>
+    <div class="scroll card flat mt"><table class="tbl" id="exTbl"></table></div>
+  </div>
+
+  <div class="sub"><h2>What moves the answer</h2>
+    <p class="note">Main effects computed from the twelve values (balanced design, so level means are comparable).</p>
+    <div class="g3" id="fx"></div>
+    <div class="callout crit mt"><p><span class="src c">Critique</span> <b>Reading of the interaction.</b> The zero-point shifts $\sigma_{\mathrm{RGC}}$ by about 0.83 kpc for the metal-poor sample but only about 0.03 kpc once a parallax S/N cut is applied. The S/N cut keeps stars with larger parallaxes, which are nearer and less sensitive to a 0.02 mas offset, and it also removes distant stars, which shrinks the apparent scale. This explanation is mine; the paper reports the effect without a mechanism.</p></div>
+  </div>
+
+  <div class="sub"><h2>The +0.02 mas moment <span class="src p">§4.3</span></h2>
+    <div class="g2">
+      <div class="card"><h3>What the paper says happened</h3>
+        <ul><li>All twelve paths ran, so the real question became why any one path deserves preference.</li><li>Rix et al. had already reported +0.02 mas and cited Lindegren et al. (2021) on the Gaia EDR3 zero-point.</li><li>What had been compressed was the judgment: why a constant is adequate for this sample, and when it needs re-estimation.</li><li>The system parsed the number and ran the fit, but did not infer that it should govern the analysis. It connected the pieces only after the experiment made the effect visible.</li></ul></div>
+      <div class="card"><h3><span class="src c">Critique</span> What to push on</h3>
+        <ul><li>If the information was in the text, the first failure was agent-side, which sits awkwardly beside the "papers are under-specified" headline.</li><li>The zero-point was already one of the three factors when the design was written, after the mismatch was known. Who identified it as a factor is not stated.</li><li>No ablation, such as a prompt asking about calibration corrections, separates a reasoning limit from a note-taking or prompting limit.</li><li>The matching path also happens to be the most literal reading of the stated method.</li></ul></div>
+    </div>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="audit.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">The Nature audit</span></a><a class="nx" href="equations.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Equations and tools</span><span class="ps">The mathematics underneath, a calculator and two algorithms.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

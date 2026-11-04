@@ -6,12 +6,11 @@
 <title>Page not found</title>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <style>
-  :root{--bg:#f1f4f7;--fg:#12212c;--muted:#52646f;--accent:#0a6b7c}
-  @media (prefers-color-scheme:dark){:root{--bg:#10181e;--fg:#e6edf1;--muted:#9fb0ba;--accent:#5fc0d1}}
-  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);
-       font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;padding:24px}
-  main{max-width:34rem}
-  h1{font-size:1.6rem;margin:0 0 .4em}
+  :root{--bg:#FBFAF7;--fg:#1B1B1A;--muted:#4A4843;--accent:#2B4F9E}
+  @media (prefers-color-scheme:dark){:root{--bg:#161615;--fg:#ECE9E1;--muted:#BDB9AE;--accent:#8CAEF0}}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font:18px/1.65 Charter,'Bitstream Charter',Georgia,serif;padding:24px}
+  main{max-width:32rem}
+  h1{font-size:1.9rem;line-height:1.2;margin:0 0 .5em}
   p{color:var(--muted);margin:.4em 0}
   a{color:var(--accent)}
 </style>
@@ -19,7 +18,8 @@
 <body>
 <main>
   <h1>That page does not exist.</h1>
-  <p>The seminar guide lives on the <a href="./">home page</a>, and the printable version is the <a href="seminar-guide.pdf">PDF</a>.</p>
+  <p>Try the <a id="home" href="./">start of the guide</a>.</p>
+  <script>var a=document.getElementById('home'),p=location.pathname.split('/');a.href=p.slice(0,/\.github\.io$/.test(location.hostname)?2:1).join('/')+'/';</script>
 </main>
 </body>
 </html>

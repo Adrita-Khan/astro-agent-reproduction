@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Nature audit | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="Each paper was processed in two rounds driven by different foundation models. An adjudicator reconciled the records and a human domain expert reviewed every retained item.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="The Nature audit | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="Each paper was processed in two rounds driven by different foundation models. An adjudicator reconciled the records and a human domain expert reviewed every retained item.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="audit">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">The Nature audit</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html">AI components</a>
+      <a href="agents.html">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html" aria-current="page">The Nature audit</a>
+      <a href="case.html">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; The evidence &nbsp;/&nbsp; Chapter 7 of 13</p>
+    <h1>Eleven of thirteen Nature papers hid a fork</h1>
+    <p class="lead">Each paper was processed in two rounds driven by different foundation models. An adjudicator reconciled the records and a human domain expert reviewed every retained item.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="g2">
+    <div class="card">
+      <h3>How a paper was classified <span class="src p">§3.4</span></h3>
+      <p>A paper lacked a uniquely specified reproduction path when at least one methodological, configurational or interpretational ambiguity forced an independent agent to make a choice the paper did not uniquely determine. Categories overlap, so the denominator is always 13. Items that could not be resolved (for example, suspected text-extraction artefacts) were recorded as unverified, not confirmed.</p>
+    </div>
+    <div class="card">
+      <h3>Eligibility screen <span class="src p">§4</span></h3>
+      <p>Public data. Enough concrete material to define an end-to-end task. A headline conclusion broadly accepted by the field. These criteria concern feasibility and a stable reference, and are said not to pre-select papers by reproduction outcome.</p>
+    </div>
+  </div>
+
+  <div class="card lift mt2">
+    <div class="chips" id="denChips">
+      <button class="chip" type="button" data-den="13" aria-pressed="true">Share of 13 papers (the paper's denominator)</button>
+      <button class="chip" type="button" data-den="11" aria-pressed="false">Share of the 11 affected</button>
+    </div>
+    <div class="bars" id="auditBars"></div>
+    <div class="detail mt" id="auditDetail" aria-live="polite"></div>
+    <p class="note" id="auditStat"></p>
+  </div>
+
+  <div class="callout crit mt2">
+    <p><span class="src c">Critique</span> <b>What 11 of 13 does and does not say.</b> It says that for an agent restricted to public text, almost every paper left at least one choice open. It does not say how many of those choices change a result (only one case is quantified, and that case is the ApJ paper, not one of the thirteen). It also mixes two sources of "ambiguity" the framework claims to separate: genuine under-specification and agent-side reading limits such as corrupted equation extraction or incomplete access to Extended Data.</p>
+    <p>The printed appendix lists clues for all thirteen papers, yet the text counts eleven. It does not mark which two papers were complete or which items were unverified, so the headline cannot be rebuilt from the manuscript alone. A machine-readable audit table is promised as supplementary material.</p>
+  </div>
+
+  <div class="sub"><h2>The thirteen papers <span class="src p">Appendix A</span></h2>
+    <p class="note">Clues paraphrased from the appendix. The appendix itself says these are audit observations, not claims that the papers contain errors. Type chips are my own grouping of each clue, not the paper's categories.</p>
+    <div class="ctrl">
+      <div class="field"><label for="paperSearch">Search papers and clues</label><input type="search" id="paperSearch" placeholder="e.g. units, MCMC, JWST"></div>
+      <div class="field"><span class="lab">Filter by clue type</span><div class="chips" id="typeChips"></div></div>
+    </div>
+    <div id="paperList"></div>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="workflows.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">Workflows</span></a><a class="nx" href="case.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Case study: Rix et al.</span><span class="ps">Twelve analysis paths through one paper, and what moves the answer.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

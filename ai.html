@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AI components | Reconstructing Implicit Scientific Knowledge</title>
+<meta name="description" content="There is no training, fine-tuning or new model. The ML content is inference-time use of large language models inside an agent loop, plus a design for auditing their outputs.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#FBFAF7">
+<meta property="og:title" content="AI components | Reconstructing Implicit Scientific Knowledge">
+<meta property="og:description" content="There is no training, fine-tuning or new model. The ML content is inference-time use of large language models inside an agent loop, plus a design for auditing their outputs.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body data-page="ai">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="top-t" href="index.html">AI components</a>
+  <button class="menubtn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side">Contents</button>
+</header>
+<div class="layout">
+<aside class="side" id="side">
+  <a class="brand" href="index.html"><span class="brand-t">Reconstructing Implicit Scientific Knowledge</span><span class="brand-s">A seminar guide to Wang et al. (2026)</span></a>
+  <nav aria-label="Chapters">
+      <div><h2 class="nav-h">The paper</h2>
+      <a href="index.html">Overview</a>
+      <a href="contributions.html">Contributions</a>
+      <a href="background.html">Background</a>
+      </div>
+      <div><h2 class="nav-h">How it works</h2>
+      <a href="ai.html" aria-current="page">AI components</a>
+      <a href="agents.html">Agent architecture</a>
+      <a href="workflows.html">Workflows</a>
+      </div>
+      <div><h2 class="nav-h">The evidence</h2>
+      <a href="audit.html">The Nature audit</a>
+      <a href="case.html">Case study: Rix et al.</a>
+      <a href="equations.html">Equations and tools</a>
+      </div>
+      <div><h2 class="nav-h">Assessment</h2>
+      <a href="assumptions.html">Assumptions</a>
+      <a href="critique.html">Critique</a>
+      </div>
+      <div><h2 class="nav-h">Presenting</h2>
+      <a href="kit.html">Seminar kit</a>
+      <a href="figures.html">Figure index</a>
+      </div>
+  </nav>
+  <div class="side-foot">
+    <span class="lab">Appearance</span>
+    <div class="themectl" role="group" aria-label="Appearance">
+      <button type="button" data-theme-set="system" aria-pressed="true">Auto</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+    </div>
+    <a href="#" data-repo="" hidden>Source on GitHub</a>
+  </div>
+</aside>
+<main class="content" id="main">
+<div class="page">
+  <header class="page-head">
+    <p class="crumb"><a href="index.html">Seminar guide</a> &nbsp;/&nbsp; How it works &nbsp;/&nbsp; Chapter 4 of 13</p>
+    <h1>What the AI actually does in this study</h1>
+    <p class="lead">There is no training, fine-tuning or new model. The ML content is inference-time use of large language models inside an agent loop, plus a design for auditing their outputs.</p>
+    
+  </header>
+  <div class="page-body">
+<div class="callout">
+    <p><span class="src p">Paper</span> Frontier instruction-following LLMs serve as reasoning engines. Every analysis used at least two independent foundation models. The agents can retrieve literature, query public archives, execute sandboxed Python and keep a persistent filesystem. Model names, versions, temperature, seeds and run counts are placeholders in this version of the manuscript.</p>
+  </div>
+
+  <div class="sub"><h2>Components, inputs, outputs and failure signatures</h2>
+    <div class="scroll card flat"><table class="tbl" id="aiTbl"></table></div>
+  </div>
+
+  <div class="sub"><h2>The agent loop, step by step</h2>
+    <p class="note">An illustrative trace built from the numbers in Fig. 4 (the sample-size mismatch). It follows the think, act, observe pattern of ReAct-style agents. The wording is mine.</p>
+    <div class="steps" id="traceSteps"></div>
+    <div class="detail" id="traceDetail"></div>
+  </div>
+
+  <div class="sub"><h2>Why a language model is the right test subject</h2>
+    <div class="g2">
+      <div class="card"><h3>Reading comprehension at scale</h3><p>A paper is natural language plus equations, tables and figure captions. An LLM is the only general tool that can parse all of it and turn it into code, which makes it a stand-in for the human reader who must reconstruct the method.</p></div>
+      <div class="card"><h3>Tool use closes the gap to execution</h3><p>A raw model cannot download Gaia data or run a fit. Wrapping it in an agent loop lets reasoning become queries, scripts and plots, so failures can be traced to concrete steps.</p></div>
+      <div class="card"><h3>Context is the bottleneck for linking</h3><p><span class="src c">Critique</span> The central failure is a long-range dependency: a value stated in one section must govern a computation described in another. Chunked reading and lossy structured notes are plausible mechanisms, yet the paper does not test them.</p></div>
+      <div class="card"><h3>Multiple models guard against one architecture's habits</h3><p>Cross-model audits make conclusions less dependent on a single model. <span class="src c">Critique</span> They only help if errors are independent, and frontier models share much training data.</p></div>
+    </div>
+  </div>
+
+  <div class="sub"><h2>What the paper does not say</h2>
+    <ul>
+      <li>Which models were run, in which role, with what temperature, seeds and number of independent runs.</li>
+      <li>Whether any model saw Rix et al. (2022) in training, or how this was ruled out.</li>
+      <li>How the PDF text was extracted, and whether figures and tables were read as images.</li>
+      <li>Any quantitative score for an agent, such as success rate, agreement or calibration. The evaluation is qualitative.</li>
+    </ul>
+  </div>
+
+  </div>
+  <nav class="pager" aria-label="Previous and next chapter"><a class="pv" href="background.html" rel="prev"><span class="dir">&larr; Previous</span><span class="pt">Background</span></a><a class="nx" href="agents.html" rel="next"><span class="dir">Next &rarr;</span><span class="pt">Agent architecture</span><span class="ps">Five roles on one orchestration framework.</span></a></nav>
+  <footer class="foot">
+    <p>An independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Not affiliated with the authors. Every figure is redrawn from scratch; numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source.</p>
+  </footer>
+</div>
+</main>
+</div>
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
