@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wang 2026 Seminar Guide</title>
+<meta name="description" content="Interactive seminar guide to Wang et al. 2026, Reconstructing Implicit Scientific Knowledge: contributions, background, agent architecture, workflows, the twelve-path experiment, assumptions and critique.">
+<meta name="color-scheme" content="light dark">
+<meta property="og:title" content="Wang 2026 Seminar Guide">
+<meta property="og:description" content="Contributions, agent architecture, workflows, assumptions and critique of an LLM-agent reproduction study in astronomy.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0A6B7C">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>try{var t=localStorage.getItem('wang26-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+<aside class="side" id="side">
+  <div class="brand">
+    <div class="brand-k">Seminar guide</div>
+    <div class="brand-t">Reconstructing Implicit Scientific Knowledge</div>
+    <div class="brand-s">Wang et al. 2026, Zhejiang Lab</div>
+  </div>
+  <nav id="nav" aria-label="Sections">
+    <a href="#overview"><i>01</i>Overview</a>
+    <a href="#contributions"><i>02</i>Contributions</a>
+    <a href="#background"><i>03</i>Background</a>
+    <a href="#ai"><i>04</i>AI components</a>
+    <a href="#agents"><i>05</i>Agent architecture</a>
+    <a href="#workflows"><i>06</i>Workflows</a>
+    <a href="#audit"><i>07</i>Nature audit</a>
+    <a href="#case"><i>08</i>Rix case study</a>
+    <a href="#technical"><i>09</i>Equations and tools</a>
+    <a href="#assumptions"><i>10</i>Assumptions</a>
+    <a href="#critique"><i>11</i>Critique</a>
+    <a href="#kit"><i>12</i>Seminar kit</a>
+    <a href="#figures"><i>13</i>Figure index</a>
+  </nav>
+  <div class="side-foot">
+    <div class="side-links">
+      <a href="#" data-repo="" hidden>Source on GitHub</a>
+    </div>
+    <div class="legend">
+      <div><span class="src p">Paper</span> stated in the manuscript</div>
+      <div><span class="src b">Background</span> outside knowledge</div>
+      <div><span class="src c">Critique</span> my reading</div>
+    </div>
+    <button class="themebtn" id="themeBtn" type="button">Theme: system</button>
+  </div>
+</aside>
+
+<main class="main" id="main">
+
+<!-- 01 OVERVIEW -->
+<section id="overview">
+  <div class="sec-head">
+    <div class="eyebrow">Wang, Qi, Xue, Wang, Xie, Tang, Sun</div>
+    <h1>Can an AI agent rebuild the reasoning behind a published result?</h1>
+    <p class="lead">The paper uses end-to-end reproduction of astronomy studies as a measuring instrument. When a reproduction fails, it asks whether the cause is the agent, an under-specified paper, or information the paper already contains but the agent never connected.</p>
+  </div>
+
+  <figure class="card hero-fig lift">
+    <div id="heroPlot"></div>
+    <div class="dotkey"><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="var(--accent)" stroke-width="2.2"/></svg>no zero-point correction</span><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="var(--accent)"/></svg>+0.02 mas correction</span><span>upper dot of each pair: all sky, lower dot: |b| &gt; 5°</span></div>
+    <figcaption>One quantity (the spatial scale $\sigma_{\mathrm{RGC}}$ of metal-poor stars around the Galactic centre) computed along twelve predefined analysis paths from the same paper. Amber marks the published value. Values transcribed from the labels printed in the manuscript's Fig. 8.</figcaption>
+  </figure>
+
+  <dl class="facts">
+    <div><dt>Corpus</dt><dd>14 studies<small>1 ApJ case + 13 Nature papers</small></dd></div>
+    <div><dt>Audit</dt><dd class="mono">11 / 13<small>papers with at least one ambiguity</small></dd></div>
+    <div><dt>Design</dt><dd class="mono">3 × 2 × 2 = 12<small>sample × sky mask × zero-point</small></dd></div>
+    <div><dt>Spread</dt><dd class="mono">2.16 to 3.53 kpc<small>same paper, same quantity</small></dd></div>
+    <div><dt>Published</dt><dd class="mono">≈ 2.70 kpc<small>recovered by one path</small></dd></div>
+  </dl>
+
+  <div class="sub">
+    <h3>The argument in six steps</h3>
+    <ol>
+      <li>Genuinely new scientific claims have no immediate ground truth, so comparing AI systems on discovery is intractable.</li>
+      <li>Reproduction supplies a known target. The agent must rebuild data selection, method and computation by itself.</li>
+      <li>Papers are written for expert readers. Omissions that an expert fills from convention become forks for an agent, and each fork can move the number.</li>
+      <li>A first reproduction of Rix et al. (2022) recovered the qualitative result but not the numbers. The authors first suspected their own pipeline.</li>
+      <li>After the pipeline was refined, 11 of 13 Nature papers still showed at least one issue that blocked a uniquely specified path.</li>
+      <li>Twelve predefined paths on Rix et al. span 2.16 to 3.53 kpc and one gives about 2.70 kpc. The decisive +0.02 mas correction was already in the text, but the agents had not linked it to the fit. Matching a number is therefore weak evidence that reasoning was reconstructed.</li>
+    </ol>
+  </div>
+
+  <div class="sub">
+    <h3>How the study unfolded</h3>
+    <p class="note">The paper's own storyline, in order. Select a stage.</p>
+    <div class="steps" id="storySteps"></div>
+    <div class="detail" id="storyDetail"></div>
+  </div>
+
+  <div class="sub">
+    <h3>Three explanations for one failed reproduction</h3>
+    <p class="note">The framework exists to tell these apart. This split is the key to the whole paper.</p>
+    <div class="g3" id="threeWay"></div>
+  </div>
+</section>
+
+<!-- 02 CONTRIBUTIONS -->
+<section id="contributions">
+  <div class="sec-head">
+    <div class="eyebrow">Core contributions</div>
+    <h2>What the paper adds, and how well each claim is supported</h2>
+    <p class="lead">Dots show my assessment of evidence strength within the manuscript, from 1 (assertion) to 5 (convincing and verifiable).</p>
+  </div>
+  <div class="g2" id="contribGrid"></div>
+  <div class="sub">
+    <h3>Claims and evidence</h3>
+    <div class="scroll card flat"><table class="tbl" id="claimsTbl"></table></div>
+  </div>
+</section>
+
+<!-- 03 BACKGROUND -->
+<section id="background">
+  <div class="sec-head">
+    <div class="eyebrow">Background and pre-existing work</div>
+    <h2>What you need to know before presenting this</h2>
+    <p class="lead">Six areas of prior knowledge sit under the paper. Open each for the part that matters here.</p>
+  </div>
+  <div id="bgList"></div>
+
+  <div class="sub">
+    <h3>Reading map of the cited work</h3>
+    <p class="note">Grouped by the role each reference plays in the argument.</p>
+    <div class="g2" id="readMap"></div>
+  </div>
+</section>
+
+<!-- 04 AI COMPONENTS -->
+<section id="ai">
+  <div class="sec-head">
+    <div class="eyebrow">Machine learning and AI components</div>
+    <h2>What the AI actually does in this study</h2>
+    <p class="lead">There is no training, fine-tuning or new model. The ML content is inference-time use of large language models inside an agent loop, plus a design for auditing their outputs.</p>
+  </div>
+
+  <div class="callout">
+    <p><span class="src p">Paper</span> Frontier instruction-following LLMs serve as reasoning engines. Every analysis used at least two independent foundation models. The agents can retrieve literature, query public archives, execute sandboxed Python and keep a persistent filesystem. Model names, versions, temperature, seeds and run counts are placeholders in this version of the manuscript.</p>
+  </div>
+
+  <div class="sub">
+    <h3>Components, inputs, outputs and failure signatures</h3>
+    <div class="scroll card flat"><table class="tbl" id="aiTbl"></table></div>
+  </div>
+
+  <div class="sub">
+    <h3>The agent loop, step by step</h3>
+    <p class="note">An illustrative trace built from the numbers in Fig. 4 (the sample-size mismatch). It follows the think, act, observe pattern of ReAct-style agents. The wording is mine.</p>
+    <div class="steps" id="traceSteps"></div>
+    <div class="detail" id="traceDetail"></div>
+  </div>
+
+  <div class="sub">
+    <h3>Why a language model is the right test subject</h3>
+    <div class="g2">
+      <div class="card"><h4>Reading comprehension at scale</h4><p>A paper is natural language plus equations, tables and figure captions. An LLM is the only general tool that can parse all of it and turn it into code, which makes it a stand-in for the human reader who must reconstruct the method.</p></div>
+      <div class="card"><h4>Tool use closes the gap to execution</h4><p>A raw model cannot download Gaia data or run a fit. Wrapping it in an agent loop lets reasoning become queries, scripts and plots, so failures can be traced to concrete steps.</p></div>
+      <div class="card"><h4>Context is the bottleneck for linking</h4><p><span class="src c">Critique</span> The central failure is a long-range dependency: a value stated in one section must govern a computation described in another. Chunked reading and lossy structured notes are plausible mechanisms, yet the paper does not test them.</p></div>
+      <div class="card"><h4>Multiple models guard against one architecture's habits</h4><p>Cross-model audits make conclusions less dependent on a single model. <span class="src c">Critique</span> They only help if errors are independent, and frontier models share much training data.</p></div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>What the paper does not say</h3>
+    <ul>
+      <li>Which models were run, in which role, with what temperature, seeds and number of independent runs.</li>
+      <li>Whether any model saw Rix et al. (2022) in training, or how this was ruled out.</li>
+      <li>How the PDF text was extracted, and whether figures and tables were read as images.</li>
+      <li>Any quantitative score for an agent, such as success rate, agreement or calibration. The evaluation is qualitative.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 05 AGENTS -->
+<section id="agents">
+  <div class="sec-head">
+    <div class="eyebrow">AI agents and architecture</div>
+    <h2>Five roles on one orchestration framework</h2>
+    <p class="lead">Hermes, an open-source multi-agent framework (Nous Research, 2026), schedules specialised roles and gives them tools and a persistent filesystem. Select any box to see what the role reads, writes and decides.</p>
+  </div>
+
+  <div class="card lift">
+    <svg id="agentSvg" viewBox="0 0 760 412" role="group" aria-label="Agent architecture diagram. Select a box for details.">
+      <defs>
+        <marker id="ahA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ah"/></marker>
+        <marker id="ahB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ahd"/></marker>
+      </defs>
+      <rect class="sv-hermes" x="8" y="60" width="744" height="220" rx="10"/>
+      <text class="sv-s" x="20" y="270">Hermes: schedules roles, supplies tools and a persistent filesystem</text>
+
+      <g class="node" data-role="input" tabindex="0" role="button" aria-label="Input"><rect class="sv-box" x="24" y="8" width="232" height="36" rx="6"/><text class="sv-s" x="140" y="30" text-anchor="middle">Target paper + accessible supplement</text></g>
+      <g class="node" data-role="human" tabindex="0" role="button" aria-label="Human expert review"><rect class="sv-box" x="480" y="8" width="256" height="36" rx="6"/><text class="sv-s" x="608" y="30" text-anchor="middle">Human expert review, then judgment</text></g>
+      <path class="sv-line" d="M84 44 L84 116" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M700 116 L700 46" marker-end="url(#ahA)"/>
+
+      <g class="node" data-role="reader" tabindex="0" role="button" aria-label="Reader"><rect class="sv-box" x="24" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="84" y="152" text-anchor="middle">Reader</text><text class="sv-s" x="84" y="172" text-anchor="middle">paper to notes</text></g>
+      <g class="node" data-role="planner" tabindex="0" role="button" aria-label="Planner"><rect class="sv-box" x="172" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="232" y="152" text-anchor="middle">Planner</text><text class="sv-s" x="232" y="172" text-anchor="middle">notes to task graph</text></g>
+      <g class="node" data-role="coder" tabindex="0" role="button" aria-label="Coder"><rect class="sv-box" x="320" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="380" y="152" text-anchor="middle">Coder</text><text class="sv-s" x="380" y="172" text-anchor="middle">writes and runs code</text></g>
+      <g class="node" data-role="verifier" tabindex="0" role="button" aria-label="Verifier"><rect class="sv-box" x="468" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="528" y="152" text-anchor="middle">Verifier</text><text class="sv-s" x="528" y="172" text-anchor="middle">re-derives and checks</text></g>
+      <g class="node" data-role="adjudicator" tabindex="0" role="button" aria-label="Adjudicator"><rect class="sv-box" x="616" y="118" width="120" height="80" rx="8"/><text class="sv-t" x="676" y="152" text-anchor="middle">Adjudicator</text><text class="sv-s" x="676" y="172" text-anchor="middle">cross-model audit</text></g>
+
+      <path class="sv-line" d="M146 158 L170 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M294 158 L318 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M442 158 L466 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M590 158 L614 158" marker-end="url(#ahA)"/>
+      <path class="sv-line" d="M528 200 C528 250 380 250 380 202" marker-end="url(#ahA)"/>
+      <text class="sv-s" x="454" y="255" text-anchor="middle">mismatch: trace, fix, rerun</text>
+      <path class="sv-dash" d="M650 116 C650 78 246 78 246 114" marker-end="url(#ahB)"/>
+      <text class="sv-s" x="448" y="76" text-anchor="middle">unresolved: re-plan or re-read (inferred)</text>
+
+      <g class="node" data-role="models" tabindex="0" role="button" aria-label="Foundation models"><rect class="sv-wide" x="8" y="290" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="311" text-anchor="middle">Foundation models: at least two independent LLMs; cross-model audits at milestones</text></g>
+      <g class="node" data-role="fs" tabindex="0" role="button" aria-label="Filesystem and provenance"><rect class="sv-wide" x="8" y="330" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="351" text-anchor="middle">Persistent filesystem and provenance log: datasets, scripts, intermediate outputs, parameter decisions</text></g>
+      <g class="node" data-role="tools" tabindex="0" role="button" aria-label="Toolchain"><rect class="sv-wide" x="8" y="370" width="744" height="34" rx="6"/><text class="sv-s" x="380" y="391" text-anchor="middle">Toolchain: literature retrieval, Gaia / MAST / TESS archives, sandboxed Python (pinned), shell</text></g>
+    </svg>
+    <p class="note" style="margin:8px 0 0;font-size:12.5px;color:var(--muted)">Solid arrows follow the paper's description. The dashed arrow is my inference about where unresolved disagreements go.</p>
+  </div>
+  <div class="detail mt" id="roleDetail" aria-live="polite"></div>
+
+  <div class="sub">
+    <h3>How the roles interact</h3>
+    <div class="g2">
+      <div class="card"><h4><span class="src p">Paper</span> What is stated</h4>
+        <ul><li>Roles are scheduled by Hermes and share tools and a persistent filesystem.</li><li>The verifier re-derives results independently and checks them against the paper.</li><li>The adjudicator settles execution versus verification disagreements through cross-model audit, not self-confirmation.</li><li>Parameters carry provenance, and failure modes and uncertainty must be reported.</li></ul></div>
+      <div class="card"><h4><span class="src c">Critique</span> What is left open</h4>
+        <ul><li>Message format and turn-taking between roles.</li><li>Whether the verifier sees the coder's reasoning or only its outputs.</li><li>Retry limits and stopping rules.</li><li>Whether the planner or a human enumerated the alternative interpretations in the twelve-path study.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 WORKFLOWS -->
+<section id="workflows">
+  <div class="sec-head">
+    <div class="eyebrow">Complete workflows</div>
+    <h2>From a paper to a defensible judgment</h2>
+    <p class="lead">Four views of the same method: the five-stage pipeline, the mismatch-tracing loop used on Rix et al., the attribution logic, and a single diagram joining them.</p>
+  </div>
+
+  <div class="sub" style="margin-top:0">
+    <h3>A. The five-stage pipeline <span class="src p">Fig. 1</span></h3>
+    <p class="note">The agent does not summarise the paper. It retraces the chain of evidence. Input is paper plus public data, the process is auditable (steps, evidence, gaps) and the output is a defensible judgment.</p>
+    <div class="steps" id="pipeSteps"></div>
+    <div class="detail" id="pipeDetail"></div>
+  </div>
+
+  <div class="sub">
+    <h3>B. The mismatch-tracing loop on Rix et al. <span class="src p">Fig. 3</span></h3>
+    <p class="note">The loop is the method: a mismatch is investigated, not averaged away. On a mismatch the agents trace the earliest unsupported assumption and resume from the stage it affects.</p>
+    <div class="steps" id="rixSteps"></div>
+    <div class="detail" id="rixDetail"></div>
+    <div class="callout warn mt"><p><b>Loop rule.</b> Mismatch found at stage 04 → trace the earliest unsupported assumption (stages 01 to 04) → restart from that stage. Parameters are not chosen by how closely they reproduce the published number. An unresolved mismatch is recorded as unresolved.</p></div>
+  </div>
+
+  <div class="sub">
+    <h3>C. Attribution logic <span class="src p">Fig. 2 and Fig. 7</span></h3>
+    <p class="note">Every observed difference between reproduction and publication is traced to one of three suspects. Controlled comparisons change one family of variables and hold the others fixed.</p>
+    <div class="g2">
+      <div class="card">
+        <h4>Three suspects for any difference</h4>
+        <table class="tbl"><tbody>
+          <tr><td><b>Foundation model</b></td><td>reasoning and representation</td></tr>
+          <tr><td><b>Agent workflow</b></td><td>tools, execution, feedback</td></tr>
+          <tr><td><b>Published method</b></td><td>selection rules and hidden conventions</td></tr>
+        </tbody></table>
+      </div>
+      <div class="card">
+        <h4>Three controlled families</h4>
+        <table class="tbl" id="attrTbl"></table>
+      </div>
+    </div>
+    <div class="callout crit"><p><span class="src c">Critique</span> The manuscript says cross-model comparisons were used throughout, and Fig. 7 names GPT-5.5 and Claude Opus 4.7 as examples. No per-model or per-workflow results are tabulated, so family A and B outcomes cannot be checked from the text. The twelve-path study is the only fully reported variation.</p></div>
+  </div>
+
+  <div class="sub">
+    <h3>D. Everything in one diagram <span class="src c">Synthesis</span></h3>
+    <p class="note">My synthesis of Fig. 1, Fig. 3, Fig. 7 and sections 3 to 4, with the decision points and feedback loops made explicit. The last branch (information present but unlinked) is the one the paper discovered only after the sensitivity analysis.</p>
+    <div data-fig="fig-master-flow"></div>
+  </div>
+</section>
+
+<!-- 07 AUDIT -->
+<section id="audit">
+  <div class="sec-head">
+    <div class="eyebrow">Corpus evidence</div>
+    <h2>Eleven of thirteen Nature papers hid a fork</h2>
+    <p class="lead">Each paper was processed in two rounds driven by different foundation models. An adjudicator reconciled the records and a human domain expert reviewed every retained item.</p>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h4>How a paper was classified <span class="src p">§3.4</span></h4>
+      <p>A paper lacked a uniquely specified reproduction path when at least one methodological, configurational or interpretational ambiguity forced an independent agent to make a choice the paper did not uniquely determine. Categories overlap, so the denominator is always 13. Items that could not be resolved (for example, suspected text-extraction artefacts) were recorded as unverified, not confirmed.</p>
+    </div>
+    <div class="card">
+      <h4>Eligibility screen <span class="src p">§4</span></h4>
+      <p>Public data. Enough concrete material to define an end-to-end task. A headline conclusion broadly accepted by the field. These criteria concern feasibility and a stable reference, and are said not to pre-select papers by reproduction outcome.</p>
+    </div>
+  </div>
+
+  <div class="card lift mt2">
+    <div class="chips" id="denChips" style="margin-bottom:14px">
+      <button class="chip" type="button" data-den="13" aria-pressed="true">Share of 13 papers (the paper's denominator)</button>
+      <button class="chip" type="button" data-den="11" aria-pressed="false">Share of the 11 affected</button>
+    </div>
+    <div class="bars" id="auditBars"></div>
+    <div class="detail mt" id="auditDetail" style="background:var(--panel)" aria-live="polite"></div>
+    <p class="note" style="margin:12px 0 0;font-size:13px;color:var(--muted)" id="auditStat"></p>
+  </div>
+
+  <div class="callout crit mt2">
+    <p><span class="src c">Critique</span> <b>What 11 of 13 does and does not say.</b> It says that for an agent restricted to public text, almost every paper left at least one choice open. It does not say how many of those choices change a result (only one case is quantified, and that case is the ApJ paper, not one of the thirteen). It also mixes two sources of "ambiguity" the framework claims to separate: genuine under-specification and agent-side reading limits such as corrupted equation extraction or incomplete access to Extended Data.</p>
+    <p>The printed appendix lists clues for all thirteen papers, yet the text counts eleven. It does not mark which two papers were complete or which items were unverified, so the headline cannot be rebuilt from the manuscript alone. A machine-readable audit table is promised as supplementary material.</p>
+  </div>
+
+  <div class="sub">
+    <h3>The thirteen papers <span class="src p">Appendix A</span></h3>
+    <p class="note">Clues paraphrased from the appendix. The appendix itself says these are audit observations, not claims that the papers contain errors. Type chips are my own grouping of each clue, not the paper's categories.</p>
+    <div class="ctrl" style="margin-bottom:14px">
+      <div class="field"><label for="paperSearch">Search papers and clues</label><input type="search" id="paperSearch" placeholder="e.g. units, MCMC, JWST"></div>
+      <div class="field"><span class="lab">Filter by clue type</span><div class="chips" id="typeChips"></div></div>
+    </div>
+    <div id="paperList"></div>
+  </div>
+</section>
+
+<!-- 08 CASE -->
+<section id="case">
+  <div class="sec-head">
+    <div class="eyebrow">In-depth case study</div>
+    <h2>Rix et al. (2022): twelve paths through one paper</h2>
+    <p class="lead">“The Poor Old Heart of the Milky Way” (ApJ 941, 45). Every agent run recovered the qualitative result: metal-poor stars concentrate toward the Galactic centre and differ from the other population in chemistry and orbits. The numbers did not line up.</p>
+  </div>
+
+  <div class="sub" style="margin-top:0">
+    <h3>Two first anomalies <span class="src p">Fig. 4 and Fig. 5</span></h3>
+    <div class="g2">
+      <div class="card">
+        <h4>Sample size does not match</h4>
+        <p>Following the stated method gave nearly 30,000 stars, while the published analysis used roughly 18,000 to 20,000. The counting convention could not be reconstructed from the text and public data.</p>
+        <div class="lad" id="ladder"></div>
+      </div>
+      <div class="card">
+        <h4>The headline scale was not uniquely determined</h4>
+        <p>The published $\sigma_{\mathrm{RGC}}$ is about 2.7 kpc. The public method left three choices open: which stars count, which sky region, and whether to apply a +0.02 mas parallax correction. The mismatch was recorded as unresolved and parameters were not tuned toward 2.7.</p>
+        <div class="callout crit" style="margin:0"><p><span class="src c">Critique</span> Of the three sample definitions later used, none has N in the published 18,000 to 20,000 range. The path that recovers 2.70 kpc uses about 30,000 stars. The match in σ and the mismatch in N are both unexplained.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Design of the controlled study <span class="src p">§3.5, §4.3</span></h3>
+    <div class="g3">
+      <div class="card"><h4>Sample definition (3)</h4><p>Metal-poor cut only; plus parallax S/N ≥ 5; plus S/N ≥ 5 and RUWE &lt; 1.4.</p></div>
+      <div class="card"><h4>Sky mask (2)</h4><p>Full sky, or exclude the Galactic plane with |b| &gt; 5°.</p></div>
+      <div class="card"><h4>Parallax zero-point (2)</h4><p>No correction, or +0.02 mas added to the observed parallax.</p></div>
+    </div>
+    <div data-fig="fig-sensitivity-design" class="mt"></div>
+    <div class="callout mt"><p><span class="src p">Paper</span> The published value was never an optimisation target, selection criterion or stopping condition. Path labels, parameter grids and stopping rules were fixed before any run. No path was added, removed or re-weighted after the published number became visible to the team.</p></div>
+  </div>
+
+  <div class="sub">
+    <h3>Explore the twelve paths</h3>
+    <p class="note">Choose a path or click a point. Slide the match tolerance to see how many paths count as recovering the published value. Values come from the labels printed in Fig. 8.</p>
+    <div class="card lift">
+      <div class="ctrl">
+        <div class="field"><span class="lab">Sample definition</span><div class="chips" data-f="sample">
+          <button class="chip" type="button" data-v="MP">Metal-poor</button>
+          <button class="chip" type="button" data-v="SN">+ S/N ≥ 5</button>
+          <button class="chip" type="button" data-v="AS">+ RUWE &lt; 1.4</button></div></div>
+        <div class="field"><span class="lab">Sky mask</span><div class="chips" data-f="mask">
+          <button class="chip" type="button" data-v="full">Full sky</button>
+          <button class="chip" type="button" data-v="b5">|b| &gt; 5°</button></div></div>
+        <div class="field"><span class="lab">Parallax zero-point</span><div class="chips" data-f="zp">
+          <button class="chip" type="button" data-v="0">None</button>
+          <button class="chip" type="button" data-v="1">+0.02 mas</button></div></div>
+      </div>
+      <div class="ctrl mt">
+        <div class="field"><label for="exTol">Match tolerance: ±<span id="exTolV">1.0</span>%</label><input type="range" id="exTol" min="0.1" max="25" step="0.1" value="1"></div>
+        <div class="field"><span class="lab">Published value</span><div class="chips"><button class="chip" type="button" id="exPub" aria-pressed="true">Show 2.70 kpc line</button></div></div>
+        <div class="field"><span class="lab">Paths within tolerance</span><div class="exnum" id="exCount">2 of 12</div></div>
+      </div>
+      <div id="exCard" class="detail mt" style="background:var(--panel)" aria-live="polite"></div>
+      <div id="exPlot" class="mt"></div>
+      <div class="dotkey mt"><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="var(--accent)" stroke-width="2.2"/></svg>no correction</span><span><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5.5" fill="var(--accent)"/></svg>+0.02 mas</span></div>
+    </div>
+    <div class="scroll card flat mt"><table class="tbl" id="exTbl"></table></div>
+  </div>
+
+  <div class="sub">
+    <h3>What moves the answer</h3>
+    <p class="note">Main effects computed from the twelve values (balanced design, so level means are comparable).</p>
+    <div class="g3" id="fx"></div>
+    <div class="callout crit mt"><p><span class="src c">Critique</span> <b>Reading of the interaction.</b> The zero-point shifts $\sigma_{\mathrm{RGC}}$ by about 0.83 kpc for the metal-poor sample but only about 0.03 kpc once a parallax S/N cut is applied. The S/N cut keeps stars with larger parallaxes, which are nearer and less sensitive to a 0.02 mas offset, and it also removes distant stars, which shrinks the apparent scale. This explanation is mine; the paper reports the effect without a mechanism.</p></div>
+  </div>
+
+  <div class="sub">
+    <h3>The +0.02 mas moment <span class="src p">§4.3</span></h3>
+    <div class="g2">
+      <div class="card"><h4>What the paper says happened</h4>
+        <ul><li>All twelve paths ran, so the real question became why any one path deserves preference.</li><li>Rix et al. had already reported +0.02 mas and cited Lindegren et al. (2021) on the Gaia EDR3 zero-point.</li><li>What had been compressed was the judgment: why a constant is adequate for this sample, and when it needs re-estimation.</li><li>The system parsed the number and ran the fit, but did not infer that it should govern the analysis. It connected the pieces only after the experiment made the effect visible.</li></ul></div>
+      <div class="card"><h4><span class="src c">Critique</span> What to push on</h4>
+        <ul><li>If the information was in the text, the first failure was agent-side, which sits awkwardly beside the "papers are under-specified" headline.</li><li>The zero-point was already one of the three factors when the design was written, after the mismatch was known. Who identified it as a factor is not stated.</li><li>No ablation, such as a prompt asking about calibration corrections, separates a reasoning limit from a note-taking or prompting limit.</li><li>The matching path also happens to be the most literal reading of the stated method.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 TECHNICAL -->
+<section id="technical">
+  <div class="sec-head">
+    <div class="eyebrow">Equations, algorithms and tools</div>
+    <h2>The technical core</h2>
+    <p class="lead">The paper contains no equations of its own. These are the ones that sit underneath it, plus a few I use to analyse it. Each is tagged by origin.</p>
+  </div>
+  <div class="g2" id="eqGrid"></div>
+
+  <div class="sub">
+    <h3>Parallax and zero-point calculator <span class="src b">Background</span></h3>
+    <p class="note">Why a 0.02 mas offset matters more for distant stars. All parameters are yours to change. The default sits near 8 kpc, close to the Galactic centre.</p>
+    <div class="card lift">
+      <div class="ctrl">
+        <div class="field"><label for="cPlx">Observed parallax $\varpi$ (mas)</label><input type="range" id="cPlx" min="0.04" max="1" step="0.005" value="0.125"><div class="mono" id="cPlxV">0.125</div></div>
+        <div class="field"><label for="cDelta">Zero-point shift δ added (mas)</label><input type="range" id="cDelta" min="0" max="0.05" step="0.001" value="0.02"><div class="mono" id="cDeltaV">0.020</div></div>
+      </div>
+      <div class="g4 mt" id="cOut"></div>
+      <div class="mt" id="cPlot"></div>
+      <div class="ctrl mt">
+        <div class="field"><label for="cSig">Parallax uncertainty $\sigma_{\varpi}$ (mas)</label><input type="number" id="cSig" min="0.005" max="0.2" step="0.005" value="0.03"></div>
+        <div class="field"><label for="cK">S/N threshold k</label><input type="number" id="cK" min="1" max="20" step="1" value="5"></div>
+        <div class="field"><span class="lab">Farthest star that passes</span><div class="exnum" id="cMax">6.7 kpc</div></div>
+      </div>
+      <p class="note" style="margin:10px 0 0;font-size:13px;color:var(--muted)" id="cNote"></p>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Algorithms</h3>
+    <div class="g2">
+      <div><h4>Reproduction loop <span class="src c">Reconstructed from Fig. 1, 3</span></h4>
+<pre class="code"><span class="c"># pseudocode is mine; steps follow the paper's figures</span>
+notes  = Reader(paper, supplement)
+graph  = Planner(notes)            <span class="c"># tasks, anchors, criteria</span>
+env    = prepare(public_data, pinned_packages)
+for task in graph:
+    out = Coder(task, env)         <span class="c"># log provenance</span>
+    ok  = Verifier(out, anchors)
+    while not ok:
+        stage = trace_earliest_unsupported_assumption()
+        if unresolved(stage):
+            record_unresolved(stage)   <span class="c"># do not tune</span>
+            break
+        out = rerun_from(stage)
+        ok  = Verifier(out, anchors)
+verdict = Adjudicator(records_from_two_models)
+return human_review(verdict)</pre></div>
+      <div><h4>Blinded sensitivity analysis <span class="src p">§3.5, §4.3</span></h4>
+<pre class="code">factors = {
+  sample: [metal_poor, snr_ge_5, snr_ge_5_ruwe],
+  mask:   [full_sky, abs_b_gt_5],
+  zp:     [0.0, 0.02],            <span class="c"># mas added</span>
+}
+freeze(factors, labels, stopping_rule)
+results = {}
+for path in product(*factors.values()):   <span class="c"># 3*2*2 = 12</span>
+    results[path] = fit_sigma_rgc(path)
+<span class="c"># only after every path has run:</span>
+compare(results, published=2.70)
+rank_by(abs(sigma - 2.70))</pre></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 ASSUMPTIONS -->
+<section id="assumptions">
+  <div class="sec-head">
+    <div class="eyebrow">Assumptions</div>
+    <h2>What the paper takes for granted</h2>
+    <p class="lead">Explicit assumptions are stated in the manuscript. Implicit ones are my reading of what the argument needs. Open an item for the reason it matters and how it could fail.</p>
+  </div>
+  <div class="ctrl" style="margin-bottom:12px">
+    <div class="field"><label for="asSearch">Search</label><input type="search" id="asSearch" placeholder="e.g. tolerance, blinding, extraction"></div>
+    <div class="field"><span class="lab">Kind</span><div class="chips" id="asKind">
+      <button class="chip" type="button" data-v="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-v="explicit" aria-pressed="false">Explicit</button>
+      <button class="chip" type="button" data-v="implicit" aria-pressed="false">Implicit</button></div></div>
+  </div>
+  <div class="chips" id="asGroup" style="margin-bottom:14px"></div>
+  <p class="note" id="asCount" style="color:var(--muted)"></p>
+  <div id="asList"></div>
+</section>
+
+<!-- 11 CRITIQUE -->
+<section id="critique">
+  <div class="sec-head">
+    <div class="eyebrow">Critical evaluation</div>
+    <h2>Strengths, weaknesses and what would fix them</h2>
+    <p class="lead">An overall reading: a sharp framing and a well-designed sensitivity analysis, supported by thin evidence on the agent side. Adjust the scorecard to your own view.</p>
+  </div>
+
+  <div class="card lift">
+    <h4>Scorecard <span class="src c">My assessment, click to change</span></h4>
+    <div id="score" style="margin-top:10px"></div>
+    <button class="chip mt" type="button" id="scoreReset">Reset to my scores</button>
+  </div>
+
+  <div class="sub">
+    <h3>Strengths</h3>
+    <div id="strengths"></div>
+  </div>
+
+  <div class="sub">
+    <h3>Weaknesses and shortcomings</h3>
+    <div class="chips" id="sevChips" style="margin-bottom:12px">
+      <button class="chip" type="button" data-v="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-v="high" aria-pressed="false">High</button>
+      <button class="chip" type="button" data-v="med" aria-pressed="false">Medium</button>
+      <button class="chip" type="button" data-v="low" aria-pressed="false">Low</button>
+    </div>
+    <div id="weak"></div>
+  </div>
+
+  <div class="sub">
+    <h3>A tension at the centre</h3>
+    <div class="callout crit">
+      <p>The abstract stresses source underspecification: eleven of thirteen papers could not be reproduced along a unique path. For the one case studied in depth, though, the decisive number was stated and cited in the paper. That makes the first failure partly an agent failure, and the framework's own distinction (agent error, underspecification, failure to connect) puts the case in the third bin. The two headline claims describe different phenomena, and the paper would be sharper if it said so.</p>
+    </div>
+  </div>
+
+  <div class="sub">
+    <h3>Improvements I would ask for</h3>
+    <div id="improve"></div>
+  </div>
+</section>
+
+<!-- 12 KIT -->
+<section id="kit">
+  <div class="sec-head">
+    <div class="eyebrow">Seminar kit</div>
+    <h2>Talk plan, questions, quiz and glossary</h2>
+  </div>
+
+  <div class="sub" style="margin-top:0">
+    <h3>Talk plan</h3>
+    <p class="note" id="talkNote"></p>
+    <div class="scroll card flat"><table class="tbl" id="talkTbl"></table></div>
+  </div>
+
+  <div class="sub">
+    <h3>Questions to expect</h3>
+    <div id="qa"></div>
+  </div>
+
+  <div class="sub">
+    <h3>Self-test</h3>
+    <div class="card lift" id="quiz"></div>
+  </div>
+
+  <div class="sub">
+    <h3>Glossary</h3>
+    <div class="field" style="margin-bottom:12px;max-width:420px"><label for="glSearch">Search terms</label><input type="search" id="glSearch" placeholder="e.g. RUWE, ReAct, tacit"></div>
+    <div class="g2" id="glList"></div>
+  </div>
+</section>
+
+
+<!-- 13 FIGURES -->
+<section id="figures">
+  <div class="sec-head">
+    <div class="eyebrow">Figure index</div>
+    <h2>Every diagram in one place</h2>
+    <p class="lead">All eleven figures are drawn from scratch rather than copied from the paper. Each is a vector graphic, so it stays sharp at any size; select an image to open it full size.</p>
+  </div>
+  <div class="figgrid" id="figGrid"></div>
+  <footer class="foot">
+    <p>Independent study guide to Wang, Qi, Xue, Wang, Xie, Tang and Sun (2026), <em>Reconstructing Implicit Scientific Knowledge: Evaluating LLM Agents through End-to-End Reproduction of Astronomy Studies</em>. Figures are redrawn originals. Numerical values in Figs. 7 to 10 are transcribed from labels printed in the paper and should be checked against the source. Not affiliated with the authors.</p>
+  </footer>
+</section>
+
+</main>
+</div>
+
+<script src="assets/vendor/katex/katex.min.js"></script>
+<script src="assets/vendor/katex/auto-render.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

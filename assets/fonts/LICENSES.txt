@@ -1,0 +1,412 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: fonts-inter
+Upstream-Contact: The Inter Project Authors <rasmus@notion.se>
+Source: https://github.com/rsms/inter
+Files-Excluded: docs/font-files/*.woff* docs/lab docs/samples
+
+Files: *
+Copyright: 2016-2023 The Inter Project Authors <rasmus@notion.se>
+License: OFL-1.1 and Apache-2.0
+
+License: OFL-1.1
+ PREAMBLE
+ The goals of the Open Font License (OFL) are to stimulate worldwide
+ development of collaborative font projects, to support the font
+ creation efforts of academic and linguistic communities, and to
+ provide a free and open framework in which fonts may be shared and
+ improved in partnership with others.
+ .
+ The OFL allows the licensed fonts to be used, studied, modified and
+ redistributed freely as long as they are not sold by themselves. The
+ fonts, including any derivative works, can be bundled, embedded,
+ redistributed and/or sold with any software provided that any
+ reserved names are not used by derivative works. The fonts and
+ derivatives, however, cannot be released under any other type of
+ license. The requirement for fonts to remain under this license
+ does not apply to any document created using the fonts or their
+ derivatives.
+ .
+ DEFINITIONS
+ Font Software refers to the set of files released by the
+ Copyright Holder(s) under this license and clearly marked as such.
+ This may include source files, build scripts and documentation.
+ .
+ Reserved Font Name refers to any names specified as such after
+ the copyright statement(s).
+ .
+ Original Version refers to the collection of Font Software
+ components as distributed by the Copyright Holder(s).
+ .
+ Modified Version refers to any derivative made by adding to,
+ deleting, or substituting in part or in whole any of the components
+ of the Original Version, by changing formats or by porting the Font
+ Software to a new environment.
+ .
+ Author refers to any designer, engineer, programmer, technical
+ writer or other person who contributed to the Font Software.
+ .
+ PERMISSION & CONDITIONS
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of the Font Software, to use, study, copy, merge,
+ embed, modify, redistribute, and sell modified and unmodified copies
+ of the Font Software, subject to the following conditions:
+ .
+ 1) Neither the Font Software nor any of its individual components,
+    in Original or Modified Versions, may be sold by itself.
+ .
+ 2) Original or Modified Versions of the Font Software may be bundled,
+    redistributed and/or sold with any software, provided that each
+    copy contains the above copyright notice and this license. These
+    can be included either as stand-alone text files, human-readable
+    headers or in the appropriate machine-readable metadata fields
+    within text or binary files as long as those fields can be easily
+    viewed by the user.
+ .
+ 3) No Modified Version of the Font Software may use the Reserved Font
+    Name(s) unless explicit written permission is granted by the
+    corresponding Copyright Holder. This restriction only applies to
+    the primary font name as presented to the users.
+ .
+ 4) The name(s) of the Copyright Holder(s) or the Author(s) of the
+    Font Software shall not be used to promote, endorse or advertise
+    any Modified Version, except to acknowledge the contribution(s)
+    of the Copyright Holder(s) and the Author(s) or with their
+    explicit written permission.
+ .
+ 5) The Font Software, modified or unmodified, in part or in whole,
+    must be distributed entirely under this license, and must not be
+    distributed under any other license. The requirement for fonts to
+    remain under this license does not apply to any document created
+    using the Font Software.
+ .
+ TERMINATION
+ This license becomes null and void if any of the above conditions
+ are not met.
+ .
+ DISCLAIMER
+ THE FONT SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL
+ THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR
+ CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT
+ SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
+
+License: Apache-2.0
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+ .
+      https://www.apache.org/licenses/LICENSE-2.0
+ .
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ .
+ On Debian systems, the full text of the Apache Software License version 2 can
+ be found in the file `/usr/share/common-licenses/Apache-2.0'.
+
+Files: debian/*
+Copyright: 2019-2023 Gürkan Myczko <tar@debian.org>
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+=================== TeX Gyre Pagella (headings) ===================
+###########################################################################
+############          The TeX Gyre Collection of Fonts         ############
+############                 The font Pagella                  ############
+###########################################################################
+
+Font: TeX Gyre Pagella
+Authors: Bogus\l{}aw Jackowski, Janusz M. Nowacki, Piotr Pianowski, and Piotr Strzelczyk
+Version: 2.501
+Date: 8 V 2018
+Downloads: http://www.gust.org.pl/projects/e-foundry/tex-gyre/pagella
+
+
+License:
+  % Copyright 2007--2018 for TeX Gyre extensions by B. Jackowski,
+  % J.M. Nowacki et al. (on behalf of TeX Users Groups). Vietnamese
+  % characters were added by Han The Thanh.
+  %
+  % This work can be freely used and distributed under
+  % the GUST Font License (GFL -- see GUST-FONT-LICENSE.txt)
+  % which is actually an instance of the LaTeX Project Public License
+  % (LPPL -- see http://www.latex-project.org/lppl.txt ).
+  %
+  % This work has the maintenance status "maintained". The Current Maintainer
+  % of this work is Bogus\l{}aw Jackowski and Janusz M. Nowacki.
+  %
+  % This work consists of the files listed
+  % in the MANIFEST-TeX-Gyre-Pagella.txt file.
+
+###########################################################################
+############         A BRIEF DESCRIPTION OF THE PACKAGE        ############
+###########################################################################
+
+The current package contains the most recent version of the TeX Gyre
+Pagella family of fonts in the PostScript Type 1 and OpenType formats.
+TeX Gyre Pagella is based on the URW Palladio L kindly released
+by URW++ Design and Development Inc. under GFL (independently of the GPL
+release accompanying Ghostscript). The Vietnamese glyphs were added
+by Han The Thanh.
+
+TeX Gyre Pagella can be used as a replacement for the renowned Palatino
+font (designed by Hermann Zapf in the 1940's for the Stempel type foundry;
+an interesting lifestory of Hermann Zapf can be found at:
+http://www.linotype.com/1494/theschoolyears.html );
+
+Note that the widths of the TeX Gyre Pagella glyphs are almost consistent
+with the relevant Adobe metric data (for the glyphs from the Adobe Standard
+Encoding):
+  ftp://ftp.adobe.com/pub/adobe/type/win/all/afmfiles/base35/pob_____.afm
+  ftp://ftp.adobe.com/pub/adobe/type/win/all/afmfiles/base35/pobi____.afm
+  ftp://ftp.adobe.com/pub/adobe/type/win/all/afmfiles/base35/poi_____.afm
+  ftp://ftp.adobe.com/pub/adobe/type/win/all/afmfiles/base35/por_____.afm
+
+The only exception is `perthousand' in the regular variant (Adobe: 1144;
+TeX Gyre: 1000 which is consistent with the width of perthousand in other
+variants). The discrepancy (in the regular variant) between the width 
+of the glyph `i' (291) and the width of `dotlessi' (287) was preserved
+as optically irrelevant.
+
+                           *   *   *
+
+The TeX Gyre project, following the Latin Modern project, aims at providing
+a rich collection of diacritical characters in the attempt to cover as many
+Latin-based scripts as possible. To our knowledge, the repertoire of
+characters covers all European languages as well as some other Latin-based
+alphabets such as Vietnamese and Navajo; at the request of users, recent
+extensions (following the enhancement of the Latin Modern collection)
+provide glyphs sufficient for typesetting of romanized transliterations
+of Arabic and Sanskrit scripts. We have frequently used the information
+presented by Michael Everson at the ``The Alphabets of Europe''
+( http://www.evertype.com/alphabets/ ) web site. If you know about European
+languages that are not covered completely or if some glyphs have apparently
+wrong shapes -- please let us know. Note, however, that Greek glyphs
+bear provisional character.
+
+The TeX Gyre Project was launched and is supported by TeX USERS GROUPS
+(CS TUG, DANTE eV, GUST, NTG, TUG India, TUG). Hearty thanks to the
+representatives of these groups and also to all people who helped with
+comments, ideas, remarks, bug reports, objections, hints, consolations, etc.
+
+                           *   *   *
+
+The TeX Gyre Pagella family consists of 4 text fonts: regular,
+italic, bold and bold italic (qplr, qplri, qplb, qplbi).
+
+The TeX Gyre Pagella family can be freely used and distributed
+under the GUST Font License (see above) which is actually
+an instance of the LaTeX Project Public License
+(LPPL; see http://www.latex-project.org/lppl.txt ).
+
+                           *   *   *
+
+The package consists of the files in the directories conforming
+to the TeX Directory Structure (v. 1.1). The directories contain:
+
+doc/fonts/tex-gyre             this file, manifest, licence, test files,
+                               and, moreover, selected files used as input
+                               for generating OTFs (meant as a technical
+                               documentation of the OTFs)
+tex/latex/tex-gyre             support for LaTeX (*.fd and *.sty files,
+                               prepared by Marcin Woli\'nski)
+fonts/enc/dvips/tex-gyre       support for dvips (*.enc files);
+                               NOTE: all fonts of the TeX Gyre family
+                                 share the same *.enc files with
+                                 a few exceptions: CS, QX, and RM encodings
+                                 for TeX Gyre Cursor (monospace) differ
+                                 from the standard ones (because of the
+                                 compatibility with Computer Modern
+                                 typewriter fonts requested by users),
+                                 and, moreover, CS, L7x, QX and RM encodings
+                                 for TeX Gyre Chorus exploit exceptionally
+                                 the `lslash_lslash' ligature
+fonts/map/dvips/tex-gyre       support for dvips (*.map files)
+fonts/opentype/public/tex-gyre fonts in the OpenType format (*.otf files)
+fonts/type1/public/tex-gyre    PostScript (Type 1) font files and printer
+                               font metric files (*.pfb and *.pfm,
+                               respectively);
+fonts/tfm/public/tex-gyre      TeX font metric files (*.tfm) for:
+                               -- CS (CSTUG) encoding (cs-*.tfm),
+                               -- EC (Cork) encoding (ec-*.tfm),
+                               -- L7x (Lithuanian) encoding (l7x-*.tfm),
+                               -- QX (GUST) encoding (qx-*.tfm),
+                               -- RM (Regular Math or OT1) encoding (rm-*.tfm),
+                               -- Y&Y's TeX'n'ANSI aka LY1 encoding
+                                  (texnansi-*.tfm),
+                               -- T5 (Vietnamese) encoding (t5-*.tfm),
+                               -- Text Companion for EC fonts aka TS1
+                                  (ts1-*.tfm).
+                               Encodings CS, EC, L7x, QX, RM, Y&Y, and T5
+                               have their cap-small-caps counterparts
+                               (*-sc.tfm).
+fonts/afm/public/tex-gyre      Adobe font metric files (*.afm);
+
+Email contact: Bogus\l{}aw Jackowski aka Jacko, B_Jackowski@gust.org.pl
+
+                           *   *   *
+
+In ConTeXt, support for TeX Gyre Collection can be found in the typescript
+definition files:
+
+  ... /tex/context/base/type-enc.tex
+  ... /tex/context/base/type-syn.tex
+  ... /tex/context/base/type-exa.tex
+  ... /tex/context/base/type-map.tex
+
+Additional encoding and map files can be found under:
+
+  ... /texmf/fonts/map/pdftex/context
+  ... /texmf/fonts/enc/pdftex/context
+
+                           *   *   *
+
+All four font files, qplb, qplbi, qplr, qplri, share the same repertoire
+of characters. The number of glyphs in the PFB/OTF files (.notdef ignored) equals
+1616/1548; see qpl-info.pdf file in the relevant doc directory for details
+
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Contact: http://www.gust.org.pl/projects/e-foundry/tex-gyre/
+Source: http://www.gust.org.pl/projects/e-foundry/tex-gyre/
+
+Comment: Common Files
+Files:	fonts/enc/dvips/tex-gyre/*.enc
+ 	doc/fonts/tex-gyre*/MANIFEST*
+ 	doc/fonts/tex-gyre*/*LICENSE*
+ 	doc/fonts/tex-gyre*/README*
+ 	doc/fonts/tex-gyre-math/INSTALL.txt
+ 	doc/fonts/tex-gyre-math/math-test*
+ 	doc/fonts/tex-gyre/goadb999.nam
+ 	tlpkg/tlpobj/*
+Copyright: Copyright (C) 2006-2018 Bogusław Jackowski and Janusz M. Nowacki
+License: GUST-Font-License
+
+Comment: TeX-Gyre-Adventor
+Files:	doc/fonts/tex-gyre/qag*
+ 	fonts/map/dvips/tex-gyre/qag*
+ 	fonts/tfm/public/tex-gyre/*qag*
+ 	fonts/afm/public/tex-gyre/qag*
+ 	fonts/type1/public/tex-gyre/qag*
+ 	fonts/opentype/public/tex-gyre/texgyreadventor*
+ 	source/fonts/tex-gyre/*adventor*
+ 	tex/latex/tex-gyre/*qag*
+ 	tex/latex/tex-gyre/tgadventor.sty
+Copyright: Copyright (C) 2007-2018 Bogusław Jackowski and Janusz M. Nowacki
+License: GUST-Font-License
+
+Comment: TeX-Gyre-Bonum
+Files:	doc/fonts/tex-gyre/qbk*
+ 	fonts/map/dvips/tex-gyre/qbk*
+ 	fonts/tfm/public/tex-gyre/*qbk*
+ 	fonts/afm/public/tex-gyre/qbk*
+ 	fonts/type1/public/tex-gyre/qbk*
+ 	fonts/opentype/public/tex-gyre/texgyrebonum*
+ 	tex/latex/tex-gyre/*qbk*
+ 	tex/latex/tex-gyre/qbookman.sty
+ 	tex/latex/tex-gyre/tgbonum.sty
+Copyright: Copyright (C) 2007-2009 Bogusław Jackowski and Janusz M. Nowacki
+License: GUST-Font-License
+
+Comment: TeX-Gyre-Chorus
+Files:	doc/fonts/tex-gyre/qzc*
+ 	fonts/map/dvips/tex-gyre/qzc*
+ 	fonts/tfm/public/tex-gyre/*qzc*
+ 	fonts/afm/public/tex-gyre/qzc*
+ 	fonts/type1/public/tex-gyre/qzc*
+ 	fonts/opentype/public/tex-gyre/texgyrechorus*
+ 	tex/latex/tex-gyre/*qzc*
+ 	tex/latex/tex-gyre/qzapfcha.sty
+ 	tex/latex/tex-gyre/tgchorus.sty
+Copyright: Copyright (C) 2007-2009 Bogusław Jackowski and Janusz M. Nowacki
+License: GUST-Font-License
+
+Comment: TeX-Gyre-Cursor
+Files:	doc/fonts/tex-gyre/qcr*
+ 	fonts/map/dvips/tex-gyre/qcr*.map
+ 	fonts/tfm/public/tex-gyre/*qcr*
+ 	fonts/afm/public/tex-gyre/qcr*.afm
+
+=================== Latin Modern Mono (code) ===================
+This package was debianized by Florent Rougon <f.rougon@free.fr> on
+Tue, 27 Jan 2004 20:12:21 +0100.
+
+The following TeX Live packages were downloaded from 
+    http://www.ctan.org/tex-archive/systems/texlive/tlnet/archive/
+and merged into one orig.tar.gz file:
+    lm.tar.xz
+    lm.doc.tar.xz
+    lm-math.tar.xz
+    lm-math.doc.tar.xz
+
+
+Upstream work
+-------------
+
+The upstream README-Latin-Modern.txt file says:
+
+  Font: The Latin Modern Family of Fonts
+  Designer (Computer Modern Family of Fonts): Donald E. Knuth
+  Author: Bogus\l{}aw Jackowski and Janusz M. Nowacki
+  Version: 2.005
+  Date: 21 III 2021
+  Downloads: http://www.gust.org.pl/projects/e-foundry/latin-modern/
+  License: 
+    % Copyright 2003--2021 by B. Jackowski and J.M. Nowacki
+    % (on behalf of TeX Users Groups).
+    % This work is released under the GUST Font License
+    %   -- see GUST-FONT-LICENSE.txt.
+    % This work has the LPPL maintenance status "maintained".
+    % The Current Maintainer of this work is Bogus\l{}aw Jackowski
+    % This work consists of the files listed in the MANIFEST.txt file.
+
+  [...]
+
+  The current LM package contains the most recent version
+  of the Latin Modern family of fonts in the PostScript Type 1 and
+  OpenType format. The fonts are based on Donald E. Knuth's Computer Modern
+  fonts in the PostScript Type 1 format, released into public domain by the
+  American Mathematical Society (for the history of the outline version of
+  the CM fonts see, e.g., http://www.math.utah.edu/~beebe/fonts/bluesky.html ).
+  The project is supported by TeX users groups: CSTUG, DANTE eV, GUST,
+  GUTenberg, NTG, and TUG.
+
+
+The current README-Latin-Modern-Math.txt says
+License:
+  % Copyright 2012--2014 for the Latin Modern math extensions by B. Jackowski,
+  % P. Strzelczyk and P. Pianowski (on behalf of TeX Users Groups).
+  %
+  % This work can be freely used and distributed under
+  % the GUST Font License (GFL -- see GUST-FONT-LICENSE.txt)
+  % which is actually an instance of the LaTeX Project Public License
+  % (LPPL -- see http://www.latex-project.org/lppl.txt).
+  %
+  % This work has the maintenance status "maintained". The Current Maintainer
+  % of this work is Bogus\l{}aw Jackowski, Piotr Strzelczyk and Piotr Pianowski.
+  %
+  % This work consists of the files listed
+  % in the MANIFEST-Latin-Modern-Math.txt file.
+
