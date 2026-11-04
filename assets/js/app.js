@@ -9,6 +9,13 @@ var mean=function(a){return a.reduce(function(x,y){return x+y},0)/a.length};
 var PUB=2.70;
 var PAGEMAP={overview:['index','Overview'],contributions:['contributions','Contributions'],background:['background','Background'],ai:['ai','AI components'],agents:['agents','Agent architecture'],workflows:['workflows','Workflows'],audit:['audit','The Nature audit'],case:['case','Case study: Rix et al.'],technical:['equations','Equations and tools'],assumptions:['assumptions','Assumptions'],critique:['critique','Critique'],kit:['kit','Seminar kit'],figures:['figures','Figure index']};
 
+function fo(x,y,w,h,inner,cls,align){
+  var left=align==='middle'?x-w/2:align==='end'?x-w:x;
+  return '<foreignObject x="'+left.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w+'" height="'+h+'"><div class="fo '+cls+'" style="text-align:'+(align==='middle'?'center':align==='end'?'right':'left')+'">'+inner+'</div></foreignObject>';
+}
+function sg(v,n,plus){return (v<0?'-':(plus===false?'':'+'))+Math.abs(v).toFixed(n)}
+function kpcT(v,n,plus){return '$'+sg(v,n,plus)+'\\kpc$'}
+function pctT(v,n,plus){return '$'+sg(v,n,plus)+'\\%$'}
 function tag(k){return k==='p'?'<span class="src p">Paper</span>':k==='b'?'<span class="src b">Background</span>':'<span class="src c">Critique</span>'}
 function dots(n,max){var s='<span class="dots" role="img" aria-label="'+n+' out of '+(max||5)+'">';for(var i=1;i<=(max||5);i++)s+='<span class="dot'+(i<=n?' on':'')+'"></span>';return s+'</span>'}
 function kv(rows){return '<dl class="dl">'+rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+r[1]+'</dd>'}).join('')+'</dl>'}
@@ -73,14 +80,14 @@ function spreadSvg(c){
   if(c.pub&&c.tol!=null){var lo=Math.max(x0,PUB*(1-c.tol/100)),hi=Math.min(x1,PUB*(1+c.tol/100));s+='<rect class="band" x="'+px(lo)+'" y="'+T+'" width="'+Math.max(1.6,px(hi)-px(lo))+'" height="'+(B-T)+'"/>'}
   var step=W<460?0.4:0.2;
   for(var v=2.0;v<=3.8001;v+=step){var x=px(v);s+='<line class="gl" x1="'+x+'" x2="'+x+'" y1="'+T+'" y2="'+B+'"/><text class="ax" x="'+x+'" y="'+(B+17)+'" text-anchor="middle">'+v.toFixed(1)+'</text>'}
-  s+='<text class="ax" x="'+((L+W-R)/2)+'" y="'+(H-8)+'" text-anchor="middle">\u03C3<tspan dy="3" font-size="9">RGC</tspan><tspan dy="-3"> (kpc)</tspan></text>';
+  s+=fo((L+W-R)/2,H-28,220,22,'$\\sigma_{\\mathrm{RGC}}\\ (\\mathrm{kpc})$','ax','middle');
   keys.forEach(function(k,i){
     if(i>0)s+='<line class="sep" x1="0" x2="'+(W-R)+'" y1="'+y0[k]+'" y2="'+y0[k]+'"/>';
-    if(narrow)s+='<text class="rl" x="'+L+'" y="'+(y0[k]+18)+'">'+SAMPLES[k].name+'<tspan class="rs" dx="9">'+SAMPLES[k].sub+'</tspan></text>';
-    else s+='<text class="rl" x="2" y="'+(mid[k]-2)+'">'+SAMPLES[k].name+'</text><text class="rs" x="2" y="'+(mid[k]+15)+'">'+SAMPLES[k].sub+'</text>';
-    if(!narrow)s+='<text class="rs" x="'+(px(x0)+8)+'" y="'+(mid[k]-off+4)+'">all sky</text><text class="rs" x="'+(px(x0)+8)+'" y="'+(mid[k]+off+4)+'">|b| &gt; 5°</text>';
+    if(narrow)s+=fo(L,y0[k]+1,W-L-R,40,'<span class="rln">'+SAMPLES[k].name+'</span> <span class="rls">'+SAMPLES[k].sub+'</span>','grp1');
+    else s+=fo(2,mid[k]-20,L-8,42,'<span class="rln">'+SAMPLES[k].name+'</span><span class="rls">'+SAMPLES[k].sub+'</span>','grp');
+    if(!narrow)s+=fo(px(x0)+6,mid[k]-off-9,90,18,'all sky','rls')+fo(px(x0)+6,mid[k]+off-9,90,18,'$|b|\\gt 5^\\circ$','rls');
   });
-  if(c.pub){var xp=px(PUB);s+='<line class="publine" x1="'+xp+'" x2="'+xp+'" y1="'+(T-8)+'" y2="'+B+'"/><text class="publab" x="'+xp+'" y="'+(T-14)+'" text-anchor="middle">published ≈ 2.70</text>'}
+  if(c.pub){var xp=px(PUB);s+='<line class="publine" x1="'+xp+'" x2="'+xp+'" y1="'+(T-8)+'" y2="'+B+'"/>'+fo(xp,T-32,190,20,'published $\\approx 2.70\\kpc$','pubfo','middle')}
   PATHS.forEach(function(p){
     var cy=mid[p.sample]+(p.mask==='full'?-off:off),cx=px(p.v);
     var lab='Path '+p.id+': '+SAMPLES[p.sample].name+', '+(p.mask==='full'?'full sky':'|b| over 5 degrees')+', '+(p.zp?'+0.02 mas':'no correction')+', '+p.v.toFixed(4)+' kpc';
@@ -140,9 +147,9 @@ function auditRender(){
   $('#auditBars').innerHTML=CATS.map(function(c){var share=c.k==='any'&&den===11?100:c.n/den*100;return '<button type="button" class="bar'+(c.k==='any'?' top':'')+(aSel===c.k?' on':'')+'" data-k="'+c.k+'"><span>'+c.t+'</span><span class="tr"><span class="fl" style="width:'+share.toFixed(1)+'%"></span></span><span class="v">'+c.n+'/13</span></button>'}).join('');
   $$('#auditBars .bar').forEach(function(b){b.addEventListener('click',function(){aSel=b.getAttribute('data-k');auditRender()})});
   var c=CATS.filter(function(x){return x.k===aSel})[0];
-  $('#auditDetail').innerHTML='<h3>'+c.t+' <span class="dim" style="font:500 14px var(--sans)">'+c.n+' of 13 papers, '+(c.n/13*100).toFixed(0)+'%'+(c.k!=='any'?'; '+(c.n/11*100).toFixed(0)+'% of the 11 affected':'')+'</span></h3><p>'+c.d+'</p>';
+  $('#auditDetail').innerHTML='<h3>'+c.t+' <span class="dim" style="font:500 14px var(--sans)">'+c.n+' of 13 papers, $'+(c.n/13*100).toFixed(0)+'\\%$'+(c.k!=='any'?'; $'+(c.n/11*100).toFixed(0)+'\\%$ of the 11 affected':'')+'</span></h3><p>'+c.d+'</p>';
   var w=wilson(11,13),sum=CATS.slice(1).reduce(function(s,x){return s+x.n},0);
-  $('#auditStat').innerHTML=tag('c')+'Categories overlap, so the counts sum to '+sum+' across 11 papers, about '+(sum/11).toFixed(1)+' categories per affected paper. A 95% Wilson interval for 11 of 13 is roughly '+(w[0]*100).toFixed(0)+'% to '+(w[1]*100).toFixed(0)+'%. The paper reports no interval; this is my calculation.';
+  $('#auditStat').innerHTML=tag('c')+'Categories overlap, so the counts sum to '+sum+' across 11 papers, about '+(sum/11).toFixed(1)+' categories per affected paper. A $95\\%$ Wilson interval for 11 of 13 is roughly $'+(w[0]*100).toFixed(0)+'\\%$ to $'+(w[1]*100).toFixed(0)+'\\%$. The paper reports no interval; this is my calculation.';
 }
 $$('#denChips .chip').forEach(function(b,i,all){b.addEventListener('click',function(){den=+b.getAttribute('data-den');pressGroup(all,i);auditRender()})});
 auditRender();
@@ -163,7 +170,7 @@ papersRender();
 
 /* ---------- case study ---------- */
 (function(){
-  var rows=[{t:'Stated cut, unique stars in the Zenodo table',v:30589},{t:'Published analysis (about 18,000 to 20,000)',v:19000,k:'pub',l:'≈ 19k'},{t:'High-significance samples (Fig. 8)',v:17000,l:'≈ 17k'},{t:'Explicit ladder: with Zenodo kinematics',v:15063},{t:'After parallax &lt; 0.25 mas',v:13141}];
+  var rows=[{t:'Stated cut, unique stars in the Zenodo table',v:30589},{t:'Published analysis (about 18,000 to 20,000)',v:19000,k:'pub',l:'$\\approx 19{,}000$'},{t:'High-significance samples (Fig. 8)',v:17000,l:'$\\approx 17{,}000$'},{t:'Explicit ladder: with Zenodo kinematics',v:15063},{t:'After the cut $\\varpi<0.25\\mas$',v:13141}];
   $('#ladder').innerHTML=rows.map(function(r){var w=r.v/32000*100;return '<div class="lad-row"><span class="lt">'+r.t+'</span><span class="tr"><span class="fl'+(r.k?' '+r.k:'')+'" style="width:'+w.toFixed(1)+'%"></span></span><span class="lv">'+(r.l||r.v.toLocaleString('en-US'))+'</span></div>'}).join('');
 })();
 
@@ -173,12 +180,12 @@ function exRender(){
   var p=PATHS.filter(function(q){return q.sample===ex.sample&&q.mask===ex.mask&&q.zp===ex.zp})[0];
   var d=dev(p.v),ok=Math.abs(d)<=ex.tol;
   $$('.chips[data-f]').forEach(function(g){var f=g.getAttribute('data-f');$$('.chip',g).forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-v'))===String(ex[f])?'true':'false')})});
-  $('#exTolV').textContent=ex.tol.toFixed(1);
+  $('#exTolV').innerHTML='$\\tau=\\pm'+ex.tol.toFixed(1)+'\\,\\%$';
   $('#exCount').textContent=PATHS.filter(function(q){return Math.abs(dev(q.v))<=ex.tol}).length+' of 12';
   $('#exPub').setAttribute('aria-pressed',ex.pub?'true':'false');
-  $('#exCard').innerHTML='<div class="stats"><div><div class="lab">Path '+p.id+'</div><div class="exnum">'+p.v.toFixed(4)+' <small>kpc</small></div></div><div><div class="lab">Against the published 2.70</div><div class="exnum sm">'+(d>=0?'+':'−')+Math.abs(d).toFixed(2)+'%</div></div><div><div class="lab">Within ±'+ex.tol.toFixed(1)+'%</div><div class="exnum sm"><span class="'+(ok?'good':'bad')+'">'+(ok?'Yes':'No')+'</span></div></div></div>'+kv([['Sample',SAMPLES[p.sample].name+', '+SAMPLES[p.sample].sub+'. N = '+SAMPLES[p.sample].N+'. '+SAMPLES[p.sample].def],['Sky mask',MASKS[p.mask]],['Zero-point',p.zp?'+0.02 mas added to the observed parallax':'No correction']]);
+  $('#exCard').innerHTML='<div class="stats"><div><div class="lab">Path '+p.id+'</div><div class="exnum">'+kpcT(p.v,4,false)+'</div></div><div><div class="lab">Against the published value</div><div class="exnum sm">'+pctT(d,2)+'</div></div><div><div class="lab">Within $\\pm'+ex.tol.toFixed(1)+'\\,\\%$</div><div class="exnum sm"><span class="'+(ok?'good':'bad')+'">'+(ok?'Yes':'No')+'</span></div></div></div>'+kv([['Sample',SAMPLES[p.sample].name+', '+SAMPLES[p.sample].sub+'. Sample size $N$: '+SAMPLES[p.sample].N+'. '+SAMPLES[p.sample].def],['Sky mask',MASKS[p.mask]],['Zero-point',p.zp?'$+0.02\\mas$ added to the observed parallax':'No correction']]);
   $('#exPlot').innerHTML=spreadSvg({W:boxWidth('#exPlot',720),off:17,pad:20,sel:p.id,tol:ex.tol,pub:ex.pub,interactive:true,label:'Twelve analysis paths for sigma RGC between 2.16 and 3.53 kpc. Select a point to inspect it.'});
-  $('#exTbl').innerHTML='<thead><tr><th>Path</th><th>Sample</th><th>Sky mask</th><th>Zero-point</th><th class="n">$\\sigma_{\\mathrm{RGC}}$ (kpc)</th><th class="n">Offset</th><th>Within tolerance</th></tr></thead><tbody>'+PATHS.map(function(q){var dd=dev(q.v),o=Math.abs(dd)<=ex.tol;return '<tr data-id="'+q.id+'"'+(q.id===p.id?' class="sel"':'')+'><td class="n">'+q.id+'</td><td>'+SAMPLES[q.sample].name+'</td><td>'+MASKS[q.mask]+'</td><td>'+(q.zp?'+0.02 mas':'none')+'</td><td class="n">'+q.v.toFixed(4)+'</td><td class="n">'+(dd>=0?'+':'−')+Math.abs(dd).toFixed(2)+'%</td><td>'+(o?'<span class="good">yes</span>':'<span class="dim">no</span>')+'</td></tr>'}).join('')+'</tbody>';
+  $('#exTbl').innerHTML='<thead><tr><th>Path</th><th>Sample</th><th>Sky mask</th><th>Zero-point</th><th class="n">$\\sigma_{\\mathrm{RGC}}\\ (\\mathrm{kpc})$</th><th class="n">Offset</th><th>Within tolerance</th></tr></thead><tbody>'+PATHS.map(function(q){var dd=dev(q.v),o=Math.abs(dd)<=ex.tol;return '<tr data-id="'+q.id+'"'+(q.id===p.id?' class="sel"':'')+'><td class="n">'+q.id+'</td><td>'+SAMPLES[q.sample].name+'</td><td>'+MASKS[q.mask]+'</td><td>'+(q.zp?'$+0.02\\mas$':'none')+'</td><td class="n">'+q.v.toFixed(4)+'</td><td class="n">'+pctT(dd,2)+'</td><td>'+(o?'<span class="good">yes</span>':'<span class="dim">no</span>')+'</td></tr>'}).join('')+'</tbody>';
 }
 $$('.chips[data-f]').forEach(function(g){var f=g.getAttribute('data-f');$$('.chip',g).forEach(function(b){b.addEventListener('click',function(){var v=b.getAttribute('data-v');ex[f]=f==='zp'?+v:v;exRender()})})});
 $('#exTol').addEventListener('input',function(e){ex.tol=+e.target.value;exRender()});
@@ -196,24 +203,24 @@ var FX=(function(){
   return {s:s,m:m,z:z,rs:Math.max(s.MP,s.SN,s.AS)-Math.min(s.MP,s.SN,s.AS),rm:Math.abs(m.full-m.b5),rz:Math.abs(z.n-z.y),zpBy:{MP:zpBy('MP'),SN:zpBy('SN'),AS:zpBy('AS')},min:Math.min.apply(null,all),max:Math.max.apply(null,all)};
 })();
 (function(){
-  function card(t,range,items){return '<div class="card fxc"><h3>'+t+'</h3><div class="exnum">'+range.toFixed(2)+' <small>kpc swing</small></div>'+items.map(function(i){return '<div class="fxr"><span>'+i[0]+'<i style="width:'+(i[1]/3.6*100).toFixed(1)+'%"></i></span><b>'+i[1].toFixed(3)+'</b></div>'}).join('')+'</div>'}
-  var sg=function(v){return (v>=0?'+':'−')+Math.abs(v).toFixed(3)};
-  $('#fx').innerHTML=card('Sample definition',FX.rs,[['Metal-poor',FX.s.MP],['+ S/N ≥ 5',FX.s.SN],['+ RUWE &lt; 1.4',FX.s.AS]])+card('Parallax zero-point',FX.rz,[['None',FX.z.n],['+0.02 mas',FX.z.y]])+card('Sky mask',FX.rm,[['Full sky',FX.m.full],['|b| &gt; 5°',FX.m.b5]])+
-  '<div class="card span"><h3>The zero-point effect depends on the sample</h3>'+kv([['Metal-poor',sg(FX.zpBy.MP)+' kpc on average'],['+ S/N ≥ 5',sg(FX.zpBy.SN)+' kpc'],['+ RUWE &lt; 1.4',sg(FX.zpBy.AS)+' kpc']])+'<p class="fine">Averaged over the two sky masks. The sign reverses between the metal-poor sample and the S/N-selected ones.</p></div>';
+  function card(t,range,items){return '<div class="card fxc"><h3>'+t+'</h3><div class="exnum">$'+range.toFixed(2)+'\\kpc$ <small>swing</small></div>'+items.map(function(i){return '<div class="fxr"><span>'+i[0]+'<i style="width:'+(i[1]/3.6*100).toFixed(1)+'%"></i></span><b>'+i[1].toFixed(3)+'</b></div>'}).join('')+'</div>'}
+  var sg=function(v){return (v>=0?'+':'-')+Math.abs(v).toFixed(3)};
+  $('#fx').innerHTML=card('Sample definition',FX.rs,[['Metal-poor',FX.s.MP],['$+\\ \\SN\\ge5$',FX.s.SN],['$+\\ \\RUWE\\lt1.4$',FX.s.AS]])+card('Parallax zero-point',FX.rz,[['None',FX.z.n],['$+0.02\\mas$',FX.z.y]])+card('Sky mask',FX.rm,[['Full sky',FX.m.full],['$|b|\\gt5^\\circ$',FX.m.b5]])+
+  '<div class="card span"><h3>The zero-point effect depends on the sample</h3>'+kv([['Metal-poor','$'+sg(FX.zpBy.MP)+'\\kpc$ on average'],['$+\\ \\SN\\ge5$','$'+sg(FX.zpBy.SN)+'\\kpc$'],['$+\\ \\RUWE\\lt1.4$','$'+sg(FX.zpBy.AS)+'\\kpc$']])+'<p class="fine">Averaged over the two sky masks. The sign reverses between the metal-poor sample and the $\\SN$-selected ones.</p></div>';
 })();
 
 /* ---------- equations ---------- */
 var EQS=[
- {t:'Distance from parallax',k:'b',f:String.raw`d=\frac{1}{\varpi}`,x:String.raw`$d$ in kpc when $\varpi$ is in mas. Reliable at high S/N; at low S/N the inversion is biased and noisy, so the distance estimator is itself a hidden choice.`},
- {t:'Zero-point correction',k:'p',f:String.raw`\varpi_{\mathrm{corr}}=\varpi_{\mathrm{obs}}-Z,\qquad Z=-0.02\ \mathrm{mas}`,x:String.raw`The paper applies $+0.02$ mas to the observed parallax. Lindegren et al. (2021) give $Z$ as a function of magnitude, colour and ecliptic latitude, so a constant is a simplification.`},
- {t:'Fractional distance shift',k:'c',f:String.raw`\frac{\Delta d}{d}=-\frac{\delta}{\varpi+\delta}`,x:String.raw`From $d_c/d_u-1$ with $d=1/\varpi$ and $\delta=0.02$ mas. At $\varpi=0.125$ mas the shift is $-13.8\%$; at $\varpi=0.5$ mas, $-3.8\%$.`},
- {t:'Parallax significance cut',k:'p',f:String.raw`\frac{\varpi}{\sigma_{\varpi}}\ge k\;\Longrightarrow\; d_{\max}=\frac{1}{k\,\sigma_{\varpi}}`,x:String.raw`With $k=5$ and $\sigma_{\varpi}=0.03$ mas the farthest accepted star is $6.7$ kpc. The cut truncates the far side of the sample and shrinks its apparent scale.`},
+ {t:'Distance from parallax',k:'b',f:String.raw`d=\frac{1}{\varpi}`,x:String.raw`$d$ in $\mathrm{kpc}$ when $\varpi$ is in $\mathrm{mas}$. Reliable at high $\SN$; at low $\SN$ the inversion is biased and noisy, so the distance estimator is itself a hidden choice.`},
+ {t:'Zero-point correction',k:'p',f:String.raw`\varpi_{\mathrm{corr}}=\varpi_{\mathrm{obs}}-Z,\qquad Z=-0.02\ \mathrm{mas}`,x:String.raw`The paper applies $+0.02\mas$ to the observed parallax. Lindegren et al. (2021) give $Z$ as a function of magnitude, colour and ecliptic latitude, so a constant is a simplification.`},
+ {t:'Fractional distance shift',k:'c',f:String.raw`\frac{\Delta d}{d}=-\frac{\delta}{\varpi+\delta}`,x:String.raw`From $d_c/d_u-1$ with $d=1/\varpi$ and $\delta=0.02\mas$. At $\varpi=0.125\mas$ the shift is $-13.8\%$; at $\varpi=0.5\mas$, $-3.8\%$.`},
+ {t:'Parallax significance cut',k:'p',f:String.raw`\frac{\varpi}{\sigma_{\varpi}}\ge k\;\Longrightarrow\; d_{\max}=\frac{1}{k\,\sigma_{\varpi}}`,x:String.raw`With $k=5$ and $\sigma_{\varpi}=0.03\mas$ the farthest accepted star is $6.7\kpc$. The cut truncates the far side of the sample and shrinks its apparent scale.`},
  {t:'Size of the design',k:'p',f:String.raw`N_{\mathrm{paths}}=\prod_i k_i=3\times2\times2=12`,x:'Full factorial over sample definition, sky mask and zero-point treatment. Every other choice is fixed.'},
- {t:'Spread across paths',k:'c',f:String.raw`R=\sigma_{\max}-\sigma_{\min}=`+FX.max.toFixed(2)+'-'+FX.min.toFixed(2)+'='+(FX.max-FX.min).toFixed(2)+String.raw`\ \mathrm{kpc}`,x:'That is '+((FX.max-FX.min)/PUB*100).toFixed(0)+'% of the published 2.70 kpc, from choices the paper leaves open.'},
- {t:'Main effect of a factor',k:'c',f:String.raw`\mathrm{ME}(f)=\max_{\ell}m_{f,\ell}-\min_{\ell}m_{f,\ell},\quad m_{f,\ell}=\frac{1}{|\mathcal{P}_{f,\ell}|}\sum_{p\in\mathcal{P}_{f,\ell}}\sigma_p`,x:'Here: sample '+FX.rs.toFixed(2)+', zero-point '+FX.rz.toFixed(2)+', sky mask '+FX.rm.toFixed(2)+' kpc.'},
- {t:'Zero-point effect within a sample',k:'c',f:String.raw`\Delta_{\mathrm{ZP}}(s)=\frac12\sum_{m\in\{\mathrm{full},\,b5\}}\bigl[\sigma_{s,m,+0.02}-\sigma_{s,m,0}\bigr]`,x:'Metal-poor '+FX.zpBy.MP.toFixed(2)+' kpc; S/N-selected '+FX.zpBy.SN.toFixed(2)+' and '+FX.zpBy.AS.toFixed(2)+' kpc.'},
- {t:'Match criterion (absent from the paper)',k:'c',f:String.raw`\frac{|\sigma-2.70|}{2.70}\le\tau`,x:'Path P02 is at '+Math.abs(dev(2.7033)).toFixed(2)+'% and P04 at '+Math.abs(dev(2.6849)).toFixed(2)+'%. Which counts as the match depends entirely on $\\tau$.'},
- {t:'Wilson interval for a proportion',k:'c',f:String.raw`\frac{\hat p+\frac{z^2}{2n}\pm z\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{z^2}{4n^2}}}{1+\frac{z^2}{n}}`,x:'For 11 of 13 and $z=1.96$ the interval is about '+(wilson(11,13)[0]*100).toFixed(0)+'% to '+(wilson(11,13)[1]*100).toFixed(0)+'%.'},
+ {t:'Spread across paths',k:'c',f:String.raw`R=\sigma_{\max}-\sigma_{\min}=`+FX.max.toFixed(2)+'-'+FX.min.toFixed(2)+'='+(FX.max-FX.min).toFixed(2)+String.raw`\ \mathrm{kpc}`,x:'That is $'+((FX.max-FX.min)/PUB*100).toFixed(0)+'\\%$ of the published $2.70\\kpc$, from choices the paper leaves open.'},
+ {t:'Main effect of a factor',k:'c',f:String.raw`\begin{gathered}\mathrm{ME}(f)=\max_{\ell}m_{f,\ell}-\min_{\ell}m_{f,\ell},\\[4pt] m_{f,\ell}=\frac{1}{|\mathcal{P}_{f,\ell}|}\sum_{p\in\mathcal{P}_{f,\ell}}\sigma_p\end{gathered}`,x:'Here: sample $'+FX.rs.toFixed(2)+'\\kpc$, zero-point $'+FX.rz.toFixed(2)+'\\kpc$, sky mask $'+FX.rm.toFixed(2)+'\\kpc$.'},
+ {t:'Zero-point effect within a sample',k:'c',f:String.raw`\Delta_{\mathrm{ZP}}(s)=\frac12\sum_{m\in\{\mathrm{full},\,b5\}}\bigl[\sigma_{s,m,+0.02}-\sigma_{s,m,0}\bigr]`,x:'Metal-poor $'+FX.zpBy.MP.toFixed(2)+'\\kpc$; $\\SN$-selected $'+FX.zpBy.SN.toFixed(2)+'\\kpc$ and $'+FX.zpBy.AS.toFixed(2)+'\\kpc$.'},
+ {t:'Match criterion (absent from the paper)',k:'c',f:String.raw`\frac{|\sigma-2.70|}{2.70}\le\tau`,x:'Path P02 is at $'+Math.abs(dev(2.7033)).toFixed(2)+'\\%$ and P04 at $'+Math.abs(dev(2.6849)).toFixed(2)+'\\%$. Which counts as the match depends entirely on $\\tau$.'},
+ {t:'Wilson interval for a proportion',k:'c',f:String.raw`\frac{\hat p+\frac{z^2}{2n}\pm z\sqrt{\frac{\hat p(1-\hat p)}{n}+\frac{z^2}{4n^2}}}{1+\frac{z^2}{n}}`,x:'For 11 of 13 and $z=1.96$ the interval is about $'+(wilson(11,13)[0]*100).toFixed(0)+'\\%$ to $'+(wilson(11,13)[1]*100).toFixed(0)+'\\%$.'},
  {t:'Agreement between auditors (suggested)',k:'c',f:String.raw`\kappa=\frac{p_o-p_e}{1-p_e}`,x:'Cohen’s kappa between the two model rounds, or between a model and the human reviewer, would quantify how interpretive the audit labels are.'}
 ];
 $('#eqGrid').innerHTML=EQS.map(function(e){return '<div class="eq"><div class="t">'+e.t+tag(e.k)+'</div><div class="f">$$'+e.f+'$$</div><div class="x">'+e.x+'</div></div>'}).join('');
@@ -225,9 +232,9 @@ function cDraw(){
   var ymax=Math.max(30,Math.ceil(dlt/(0.04+dlt)*100/5)*5);
   var px=function(v){return L+(Math.log10(v)-lo)/(hi-lo)*(W-L-R)},py=function(q){return T+q/ymax*(H-T-B)};
   var s='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" class="plot" role="img" aria-label="Fractional distance change against observed parallax">';
-  for(var q=0;q<=ymax;q+=10){s+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+py(q)+'" y2="'+py(q)+'"/><text class="ax" x="'+(L-8)+'" y="'+(py(q)+4)+'" text-anchor="end">'+(q===0?'0':'−'+q)+'%</text>'}
+  for(var q=0;q<=ymax;q+=10){s+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+py(q)+'" y2="'+py(q)+'"/>'+fo(L-8,py(q)-9,48,18,'$'+(q===0?'0':'-'+q)+'\\%$','ax','end')}
   [0.05,0.1,0.2,0.5,1].forEach(function(v){s+='<line class="gl" x1="'+px(v)+'" x2="'+px(v)+'" y1="'+T+'" y2="'+(H-B)+'"/><text class="ax" x="'+px(v)+'" y="'+(H-B+17)+'" text-anchor="middle">'+v+'</text>'});
-  s+='<text class="ax" x="'+((L+W-R)/2)+'" y="'+(H-8)+'" text-anchor="middle">observed parallax (mas, log scale)</text>';
+  s+=fo((L+W-R)/2,H-21,300,20,'observed parallax $\\varpi$ ($\\mathrm{mas}$, log scale)','ax','middle');
   var d='';for(var i=0;i<=80;i++){var v=Math.pow(10,lo+(hi-lo)*i/80),y=dlt/(v+dlt)*100;d+=(i?'L':'M')+px(v).toFixed(1)+' '+py(y).toFixed(1)}
   var yc=dlt/(p+dlt)*100;
   s+='<path class="curve" d="'+d+'"/><line class="mkline" x1="'+px(p)+'" x2="'+px(p)+'" y1="'+T+'" y2="'+(H-B)+'"/><circle class="mk" cx="'+px(p)+'" cy="'+py(yc)+'" r="6"/>';
@@ -235,12 +242,11 @@ function cDraw(){
 }
 function cUpdate(){
   var plx=$('#cPlx'),dl=$('#cDelta'),p=+plx.value,dlt=+dl.value,du=1/p,dc=1/(p+dlt),ch=(dc-du)/du*100;
-  $('#cPlxV').textContent=p.toFixed(3)+' mas';$('#cDeltaV').textContent=dlt.toFixed(3)+' mas';
-  var sg=function(v,n){return (v>=0?'+':'−')+Math.abs(v).toFixed(n)};
-  $('#cOut').innerHTML=[['Uncorrected distance',du.toFixed(2)+' kpc'],['Corrected distance',dc.toFixed(2)+' kpc'],['Change',sg(dc-du,2)+' kpc'],['Fractional change',sg(ch,1)+'%']].map(function(r){return '<div class="card flat"><div class="lab">'+r[0]+'</div><div class="exnum sm">'+r[1]+'</div></div>'}).join('');
+  $('#cPlxV').innerHTML='$'+p.toFixed(3)+'\\mas$';$('#cDeltaV').innerHTML='$'+dlt.toFixed(3)+'\\mas$';
+  $('#cOut').innerHTML=[['Uncorrected distance',kpcT(du,2,false)],['Corrected distance',kpcT(dc,2,false)],['Change',kpcT(dc-du,2)],['Fractional change',pctT(ch,1)]].map(function(r){return '<div class="card flat"><div class="lab">'+r[0]+'</div><div class="exnum sm">'+r[1]+'</div></div>'}).join('');
   cDraw();
   var sig=+$('#cSig').value,k=+$('#cK').value;
-  if(sig>0&&k>0){$('#cMax').textContent=(1/(k*sig)).toFixed(1)+' kpc';$('#cNote').innerHTML='A star at the Galactic centre (about 8 kpc, $\\varpi\\approx0.125$ mas) passes a '+k+'$\\sigma$ cut only if $\\sigma_{\\varpi}\\le'+(0.125/k).toFixed(3)+'$ mas. '+tag('c')+'Parallax S/N selection removes distant stars, which is a plausible reason the S/N-based samples give smaller $\\sigma_{\\mathrm{RGC}}$.'}
+  if(sig>0&&k>0){$('#cMax').innerHTML='$'+(1/(k*sig)).toFixed(1)+'\\kpc$';$('#cNote').innerHTML='A star at the Galactic centre (about $8\\kpc$, $\\varpi\\approx0.125\\mas$) passes a $'+k+'\\sigma$ cut only if $\\sigma_{\\varpi}\\le'+(0.125/k).toFixed(3)+'\\mas$. '+tag('c')+'Parallax $\\SN$ selection removes distant stars, which is a plausible reason the $\\SN$-based samples give smaller $\\sigma_{\\mathrm{RGC}}$.'}
 }
 ['#cPlx','#cDelta','#cSig','#cK'].forEach(function(s){$(s).addEventListener('input',cUpdate)});
 
@@ -331,7 +337,7 @@ function figHtml(f,n){
   function render(){
     if(typeof window.renderMathInElement!=='function')return;
     busy=true;
-    try{window.renderMathInElement(main,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,ignoredTags:['script','noscript','style','textarea','pre','code']})}catch(e){}
+    try{window.renderMathInElement(main,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,macros:{'\\kpc':'\\,\\mathrm{kpc}','\\mas':'\\,\\mathrm{mas}','\\SN':'\\mathrm{S/N}','\\MH':'[\\mathrm{M/H}]','\\RUWE':'\\mathrm{RUWE}'},ignoredTags:['script','noscript','style','textarea','pre','code']})}catch(e){}
     busy=false;
   }
   new MutationObserver(function(){if(busy)return;clearTimeout(timer);timer=setTimeout(render,25)}).observe(main,{childList:true,subtree:true});
